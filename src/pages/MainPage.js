@@ -2,12 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
+import RecruitPoster from '../components/RecruitPoster.js';
 
 function MainPage() {
   return (
     <Container>
       <Header />
-      <Contents>1</Contents>
+      <ContentArea>
+        <RecruitPoster />
+        <RecruitPoster />
+        <RecruitPoster />
+      </ContentArea>
       <Footer />
     </Container>
   );
@@ -19,10 +24,11 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const Contents = styled.div`
-  flex: 1;
+const ContentArea = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
 `;
 
 export default MainPage;
