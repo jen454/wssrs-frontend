@@ -39,7 +39,7 @@ function Header() {
           <Text>{transLanguage.coop}</Text>
         </LogoArea>
         <InfoArea>
-          <User>20223098 신진욱</User>
+          <UserName>20223098 신진욱</UserName>
           <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
           <LogLogo src={logoutLogo} />
         </InfoArea>
@@ -50,28 +50,24 @@ function Header() {
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 100px;
   background-color: var(--background-color);
   border-bottom: 0.5px solid var(--color-gray-500);
 `;
 
 const HeaderArea = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  @media screen and (max-width: 767px) {
-    width: 100%;
-  }
-  @media screen and (min-width: 768px) {
-    width: 1040px;
-  }
+  width: 100%;
+  max-width: 1040px;
+  height: 100px;
 `;
 
 const LogoArea = styled.div`
   display: flex;
   height: 50px;
+  align-items: center;
   justify-content: center;
 `;
 
@@ -80,6 +76,7 @@ const InfoArea = styled.div`
   align-items: center;
   height: 50px;
   padding: 0px 13px;
+  gap: 10px;
   background-color: var(--color-yellow);
 `;
 
@@ -100,11 +97,13 @@ const Text = styled.div`
   align-items: center;
   font-size: var(--font-size-md);
   color: var(--color-gray-500);
+  margin-left: 4px;
 `;
 
-const User = styled.div`
+const UserName = styled.div`
   font-size: var(--font-size-sm);
   color: var(--background-color);
+  margin-right: 40px;
 `;
 
 export default Header;

@@ -47,8 +47,6 @@ const Container = styled.div`
 const TransLogo = styled.img`
   width: 66px;
   height: 26px;
-  margin-left: 50px;
-  margin-right: 10px;
   cursor: pointer;
 `;
 
@@ -58,8 +56,8 @@ const Text = styled.div`
 
 const Dropdown = styled.div`
   position: absolute;
-  top: 25px;
-  left: 58px;
+  top: 30px;
+  left: 0px;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
