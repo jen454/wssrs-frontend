@@ -75,6 +75,7 @@ const FooterArea = styled.div`
 `;
 
 const ContentArea = styled.div`
+  display: flex;
   gap: 30px;
 `;
 
