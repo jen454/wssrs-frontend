@@ -102,7 +102,7 @@ const TextArea = styled.textarea`
   resize: none;
   outline: none;
   background: transparent;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-regular);
   line-height: 1;
   overflow-y: auto;
