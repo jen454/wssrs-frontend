@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Text = styled.div`
-  font-color: var(--background-color);
+  color: var(--background-color);
   font-size: var(--font-size-ls);
   font-weight: var(--font-weight-bold);
 `;
