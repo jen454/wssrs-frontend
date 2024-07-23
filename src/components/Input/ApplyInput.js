@@ -24,7 +24,6 @@ const Container = styled.div`
 
 const Label = styled.div`
   font-size: var(--font-size-lm);
-  font-weight: var(--font-weight-regular);
 `;
 
 const Input = styled.input`

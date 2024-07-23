@@ -15,11 +15,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 17px;
-  gap: 10px;
+  padding: 8px 12px;
+  gap: 5px;
   background-color: var(--background-color);
   border: 1px solid var(--color-gray-200);
-  backdrop-filter: blur(2px);
   cursor: pointer;
 `;
 
@@ -30,7 +29,6 @@ const MenuIcon = styled.img`
 
 const Text = styled.div`
   font-size: var(--font-size-lm);
-  font-weight: var(--font-weight-regular);
 `;
 
 export default ListButton;

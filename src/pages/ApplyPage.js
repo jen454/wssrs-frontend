@@ -106,10 +106,8 @@ const ContentArea = styled.div`
 const PostArea = styled.div`
   display: flex;
   width: 100%;
-  height: 700px;
+  height: 650px;
   justify-content: center;
-  align-items: flex-start;
-  flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: var(--color-gray-10);
 `;
@@ -125,7 +123,6 @@ const FormArea = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 60px 110px;
-  margin-bottom: 95px;
 `;
 
 const Menu = styled.div`
@@ -136,8 +133,7 @@ const Menu = styled.div`
 
 const Post = styled.img`
   width: 550px;
-  height: 700px;
-  border: 1px solid var(--color-gray-400);
+  height: 650px;
   background-color: var(--background-color);
 `;
 

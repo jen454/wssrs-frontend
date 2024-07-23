@@ -5,7 +5,6 @@ import Header from '../components/Common/Header.js';
 import Footer from '../components/Common/Footer.js';
 import Category from '../components/Post/Category.js';
 import ListButton from '../components/Button/ListButton.js';
-import ApplyButton from '../components/Button/ApplyButton.js';
 import PostTitle from '../components/Post/PostTitle.js';
 import recruitDetail from '../assets/post/recruitDetail.svg';
 
@@ -14,6 +13,10 @@ function PostDetailPage() {
 
   const onClickNavigate = () => {
     navigate('/');
+  };
+
+  const onClickApplyButton = () => {
+    navigate('/apply');
   };
 
   const postContent = `
@@ -35,7 +38,7 @@ function PostDetailPage() {
   5. 결과발표 : 합격자 개별통보
 
   6. 신청방법 : 국민대학교 생활협동조합 홈페이지에서 지원 신청
-  - 필수기입사항 : 지원코드, 성명, 연락처, 학번, 희망 요일 및 근로 가능 시간 , 조합원 가입 여부
+  - 필수기입사항 : 지원코드, 연락처, 희망 요일, 조합원 가입 여부
 
   7. 기타사항
   (1) 사전교육은 근로시간으로 인정하며, 합격 통보 시 교육일정 협의 예정
@@ -56,7 +59,9 @@ function PostDetailPage() {
           <PostTextArea>
             <PostTitle title={'[샐활협동조합 근로학생 모집공고]'} />
             <TextArea value={postContent} readOnly />
-            <ApplyButton />
+            <ApplyButton onClick={onClickApplyButton}>
+              <Text>지원하기</Text>
+            </ApplyButton>
           </PostTextArea>
         </PostArea>
       </ContentArea>
@@ -80,10 +85,8 @@ const ContentArea = styled.div`
 const PostArea = styled.div`
   display: flex;
   width: 100%;
-  height: 700px;
+  height: 650px;
   justify-content: center;
-  align-items: flex-start;
-  flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: var(--color-gray-10);
 `;
@@ -118,9 +121,29 @@ const Menu = styled.div`
 
 const Post = styled.img`
   width: 550px;
-  height: 700px;
-  border: 1px solid var(--color-gray-400);
+  height: 650px;
   background-color: var(--background-color);
+`;
+
+const ApplyButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 30px;
+  margin: auto;
+  background-color: var(--color-yellow);
+  &:hover {
+    background-color: var(--color-yellow-hover);
+  }
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  cursor: pointer;
+`;
+
+const Text = styled.div`
+  color: var(--background-color);
+  font-size: var(--font-size-lm);
+  font-weight: var(--font-weight-bold);
 `;
 
 export default PostDetailPage;

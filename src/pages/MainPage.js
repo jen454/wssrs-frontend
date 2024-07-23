@@ -1,17 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Common/Header.js';
 import Footer from '../components/Common/Footer.js';
 import RecruitPoster from '../components/Post/RecruitPoster.js';
 
 function MainPage() {
+  const navigate = useNavigate();
+
+  const onClickPost = () => {
+    navigate('/post-detail');
+  };
+
   return (
     <Container>
       <Header />
       <ContentArea>
-        <RecruitPoster />
-        <RecruitPoster />
-        <RecruitPoster />
+        <RecruitPoster onClick={onClickPost} />
+        <RecruitPoster onClick={onClickPost} />
       </ContentArea>
       <Footer />
     </Container>
@@ -25,9 +31,9 @@ const Container = styled.div`
 `;
 
 const ContentArea = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
   align-items: center;
 `;
 

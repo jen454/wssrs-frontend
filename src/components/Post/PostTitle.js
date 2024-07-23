@@ -9,10 +9,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 43px;
+  height: 45px;
   background-color: var(--color-gray-200);
   font-size: var(--font-size-lm);
-  font-weight: var(--font-weight-regular);
 `;
 
 export default PostTitle;

@@ -28,7 +28,7 @@ const Container = styled.div`
   padding: 50px;
   border-radius: 20px;
   border: 1px solid var(--color-gray-500);
-  background: var(--background-color);
+  background-color: var(--background-color);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   z-index: 1001;
   position: fixed;
@@ -39,7 +39,6 @@ const Container = styled.div`
 
 const Text = styled.div`
   font-size: var(--font-size-lr);
-  font-weight: var(--font-weight-regular);
 `;
 
 export default SubmitModal;

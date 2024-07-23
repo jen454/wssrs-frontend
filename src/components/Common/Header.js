@@ -27,41 +27,34 @@ function Header() {
 
   return (
     <Container>
-      <HeaderArea>
-        <LogoArea>
-          <a
-            href="https://www.kookmin.ac.kr/user/index.do"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Logo src={kmuLogo} />
-          </a>
-          <Text>{transLanguage.coop}</Text>
-        </LogoArea>
-        <InfoArea>
-          <UserName>20223098 신진욱</UserName>
-          <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
-          <LogLogo src={logoutLogo} />
-        </InfoArea>
-      </HeaderArea>
+      <LogoArea>
+        <a
+          href="https://www.kookmin.ac.kr/user/index.do"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Logo src={kmuLogo} />
+        </a>
+        <Text>{transLanguage.coop}</Text>
+      </LogoArea>
+      <InfoArea>
+        <UserName>20223098 신진욱</UserName>
+        <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
+        <LogLogo src={logoutLogo} />
+      </InfoArea>
     </Container>
   );
 }
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  background-color: var(--background-color);
-  border-bottom: 0.5px solid var(--color-gray-500);
-`;
-
-const HeaderArea = styled.div`
-  display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   max-width: 1040px;
   height: 100px;
+  background-color: var(--background-color);
+  border-bottom: 0.5px solid var(--color-gray-500);
 `;
 
 const LogoArea = styled.div`
