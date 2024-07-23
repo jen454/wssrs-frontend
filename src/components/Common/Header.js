@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import kmuLogo from '../assets/header/kmuLogo.svg';
+import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
-import logoutLogo from '../assets/header/logoutButton.svg';
+import logoutLogo from '../../assets/header/logoutButton.svg';
 
 function Header() {
   const [language, setLanguage] = useState('ko');

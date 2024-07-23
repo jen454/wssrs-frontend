@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import kmuLogo from '../assets/footer/kmuLogo.svg';
-import instaLogo from '../assets/footer/instaLogo.svg';
-import faceBookLogo from '../assets/footer/faceBookLogo.svg';
-import twitterLogo from '../assets/footer/twitterLogo.svg';
+import kmuLogo from '../../assets/footer/kmuLogo.svg';
+import instaLogo from '../../assets/footer/instaLogo.svg';
+import faceBookLogo from '../../assets/footer/faceBookLogo.svg';
+import twitterLogo from '../../assets/footer/twitterLogo.svg';
 
 function Header() {
   return (
