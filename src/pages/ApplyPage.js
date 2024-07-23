@@ -9,9 +9,11 @@ import MediumBlueButton from '../components/Button/MediumBlueButton.js';
 import PostTitle from '../components/Post/PostTitle.js';
 import ApplyInput from '../components/Input/ApplyInput.js';
 import Category from '../components/Post/Category.js';
+import SubmitModal from '../components/SubmitModal.js';
 
 function ApplyPage() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     applyCode: '',
     contactNumber: '',
@@ -29,7 +31,7 @@ function ApplyPage() {
   };
 
   const onClickSubmit = () => {
-    navigate('/submit');
+    setShowModal(true);
   };
 
   return (
@@ -79,6 +81,12 @@ function ApplyPage() {
         </PostArea>
       </ContentArea>
       <Footer />
+      {showModal && (
+        <>
+          <Backdrop />
+          <SubmitModal onClose={() => setShowModal(false)} />
+        </>
+      )}
     </Container>
   );
 }
@@ -131,6 +139,16 @@ const Post = styled.img`
   height: 700px;
   border: 1px solid var(--color-gray-400);
   background-color: var(--background-color);
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 `;
 
 export default ApplyPage;
