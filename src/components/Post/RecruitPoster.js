@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import recruitPoster from '../assets/main/recruitPoster.svg';
+import recruitPoster from '../../assets/post/recruitPoster.svg';
 
-function RecruitPoster() {
+function RecruitPoster({ onClick, date }) {
   return (
     <Container>
       <Date>2024년 7월 23일</Date>

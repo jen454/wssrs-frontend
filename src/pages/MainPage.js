@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
-import RecruitPoster from '../components/RecruitPoster.js';
+import RecruitPoster from '../components/Post/RecruitPoster.js';
 
 function MainPage() {
   return (
