@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
+import Header from '../components/Common/Header.js';
+import Footer from '../components/Common/Footer.js';
 import RecruitPoster from '../components/Post/RecruitPoster.js';
 
 function MainPage() {

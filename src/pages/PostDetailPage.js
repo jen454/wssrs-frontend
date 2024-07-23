@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
+import Header from '../components/Common/Header.js';
+import Footer from '../components/Common/Footer.js';
 import Category from '../components/Post/Category.js';
 import ListButton from '../components/Button/ListButton.js';
 import ApplyButton from '../components/Button/ApplyButton.js';

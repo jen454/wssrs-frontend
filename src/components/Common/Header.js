@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import kmuLogo from '../assets/header/kmuLogo.svg';
-import LanguageSelector from './LanguageSelector';
+import LanguageSelector from '../../util/LanguageSelector';
 import logoutLogo from '../assets/header/logoutButton.svg';
 
 function Header() {
