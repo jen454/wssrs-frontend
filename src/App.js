@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import MainPage from './pages/MainPage';
 import PostDetailPage from './pages/PostDetailPage';
+import ApplyPage from './pages/ApplyPage';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <RecoilRoot>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/postDetail" element={<PostDetailPage />} />
+            <Route path="/post-detail" element={<PostDetailPage />} />
+            <Route path="/apply" element={<ApplyPage />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>
