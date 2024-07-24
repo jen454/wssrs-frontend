@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import MainPage from './pages/MainPage';
-import PostDetailPage from './pages/PostDetailPage';
-import ApplyPage from './pages/ApplyPage';
+import MainPage from './pages/user/MainPage';
+import PostDetailPage from './pages/user/PostDetailPage';
+import ApplyPage from './pages/user/ApplyPage';
 
 function App() {
   return (

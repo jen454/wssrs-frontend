@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Common/Header.js';
-import Footer from '../components/Common/Footer.js';
-import RecruitPoster from '../components/Post/RecruitPoster.js';
+import Header from '../../components/Common/Header.js';
+import Footer from '../../components/Common/Footer.js';
+import RecruitPoster from '../../components/Post/RecruitPoster.js';
 
 function MainPage() {
   const navigate = useNavigate();

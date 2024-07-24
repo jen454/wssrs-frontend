@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Common/Header.js';
-import Footer from '../components/Common/Footer.js';
-import Category from '../components/Post/Category.js';
-import ListButton from '../components/Button/ListButton.js';
-import PostTitle from '../components/Post/PostTitle.js';
-import recruitDetail from '../assets/post/recruitDetail.svg';
+import Header from '../../components/Common/Header.js';
+import Footer from '../../components/Common/Footer.js';
+import Category from '../../components/Post/Category.js';
+import ListButton from '../../components/Button/ListButton.js';
+import PostTitle from '../../components/Post/PostTitle.js';
+import recruitDetail from '../../assets/post/recruitDetail.svg';
 
 function PostDetailPage() {
   const navigate = useNavigate();

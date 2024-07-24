@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import recruitDetail from '../assets/post/recruitDetail.svg';
-import Header from '../components/Common/Header.js';
-import Footer from '../components/Common/Footer.js';
-import ListButton from '../components/Button/ListButton.js';
-import MediumBlueButton from '../components/Button/MediumBlueButton.js';
-import PostTitle from '../components/Post/PostTitle.js';
-import ApplyInput from '../components/Input/ApplyInput.js';
-import Category from '../components/Post/Category.js';
-import SubmitModal from '../components/SubmitModal.js';
+import recruitDetail from '../../assets/post/recruitDetail.svg';
+import Header from '../../components/Common/Header.js';
+import Footer from '../../components/Common/Footer.js';
+import ListButton from '../../components/Button/ListButton.js';
+import MediumBlueButton from '../../components/Button/MediumBlueButton.js';
+import PostTitle from '../../components/Post/PostTitle.js';
+import ApplyInput from '../../components/Input/ApplyInput.js';
+import Category from '../../components/Post/Category.js';
+import SubmitModal from '../../components/SubmitModal.js';
 
 function ApplyPage() {
   const navigate = useNavigate();
