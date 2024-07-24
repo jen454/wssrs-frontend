@@ -6,6 +6,7 @@ import PostDetailPage from './pages/user/PostDetailPage';
 import ApplyPage from './pages/user/ApplyPage';
 import SignUpPage from './pages/user/SignUpPage';
 import PasswordFindPage from './pages/user/PasswordFindPage';
+import ResetPasswordPage from './pages/user/ResetPasswordPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/apply" element={<ApplyPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/find-password" element={<PasswordFindPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>

@@ -1,0 +1,113 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import ApplyInput from '../../components/Input/AuthInput';
+import LargeBlueButton from '../../components/Button/LargeBlueButton';
+
+function ResetPasswordPage() {
+  const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
+  const [equalPassword, setEqualPassword] = useState(true);
+  const navigate = useNavigate();
+
+  const onClickButton = () => {
+    // 백엔드 요청 및 응답 처리
+    if (password !== rePassword) {
+      setEqualPassword(false);
+    }
+    navigate('/sign-in');
+  };
+
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'password') {
+      setPassword(value);
+    } else if (name === 'rePassword') {
+      setRePassword(value);
+    }
+  };
+
+  return (
+    <Container>
+      <ContentArea>
+        <TextArea>
+          <Text>비밀번호 재설정</Text>
+          <SubText>새 비밀번호를 입력해주세요.</SubText>
+        </TextArea>
+        <ApplyInput
+          name="password"
+          value={password}
+          onChange={onInputChange}
+          placeholder="비밀번호를 입력해주세요."
+        />
+        <InputArea>
+          <ApplyInput
+            name="rePassword"
+            value={rePassword}
+            onChange={onInputChange}
+            placeholder="다시 입력해주세요."
+          />
+          {!equalPassword && <Alert>* 비밀번호가 일치하지 않습니다!</Alert>}
+        </InputArea>
+        <LargeBlueButton onClick={onClickButton} title={'설정'} />
+      </ContentArea>
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+`;
+
+const ContentArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 1040px;
+  height: 700px;
+  gap: 40px;
+  border-radius: 50px;
+  background-color: var(--background-color);
+  box-sizing: border-box;
+  box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const TextArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+`;
+
+const InputArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const Text = styled.div`
+  color: var(--color-gray-500);
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+`;
+
+const SubText = styled.div`
+  color: var(--color-gray-500);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+`;
+
+const Alert = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: var(--color-red);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+`;
+
+export default ResetPasswordPage;
