@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
-import logoutLogo from '../../assets/header/logoutButton.svg';
+import loginIcon from '../../assets/header/LoginIcon.svg';
+import logoutIcon from '../../assets/header/logoutIcon.svg';
 
-function Header() {
+function Header({ isLog }) {
   const [language, setLanguage] = useState('ko');
 
   const onClickLanguageChange = (lang) => {
@@ -40,7 +41,7 @@ function Header() {
       <InfoArea>
         <UserName>20223098 신진욱</UserName>
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
-        <LogLogo src={logoutLogo} />
+        <LogLogo src={isLog ? logoutIcon : loginIcon} />
       </InfoArea>
     </Container>
   );

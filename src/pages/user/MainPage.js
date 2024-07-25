@@ -14,7 +14,7 @@ function MainPage() {
 
   return (
     <Container>
-      <Header />
+      <Header isLog={false} />
       <ContentArea>
         <RecruitPoster onClick={onClickPost} />
         <RecruitPoster onClick={onClickPost} />

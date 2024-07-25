@@ -48,7 +48,7 @@ function PostDetailPage() {
 
   return (
     <Container>
-      <Header />
+      <Header isLog={false} />
       <ContentArea>
         <Category />
         <Menu>

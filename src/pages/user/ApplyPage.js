@@ -36,7 +36,7 @@ function ApplyPage() {
 
   return (
     <Container>
-      <Header />
+      <Header isLog={false} />
       <ContentArea>
         <Category />
         <Menu>
