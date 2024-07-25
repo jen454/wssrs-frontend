@@ -8,7 +8,7 @@ function Modal({ onClose, text, title, nav }) {
 
   const onClickNavigate = () => {
     onClose();
-    navigate({ nav });
+    navigate(nav);
   };
 
   return (
