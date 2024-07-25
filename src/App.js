@@ -7,6 +7,7 @@ import ApplyPage from './pages/user/ApplyPage';
 import SignUpPage from './pages/user/SignUpPage';
 import PasswordFindPage from './pages/user/PasswordFindPage';
 import ResetPasswordPage from './pages/user/ResetPasswordPage';
+import SignInPage from './pages/user/SignInPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/post-detail" element={<PostDetailPage />} />
             <Route path="/apply" element={<ApplyPage />} />
+            <Route path="sign-in" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/find-password" element={<PasswordFindPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
