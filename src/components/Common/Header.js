@@ -26,6 +26,14 @@ function Header({ isLog }) {
 
   const transLanguage = translations[language];
 
+  const onClickLogIcon = () => {
+    if (isLog) {
+      // 로그아웃 처리 로직
+    } else {
+      navigate('/sign-in');
+    }
+  };
+
   return (
     <Container>
       <LogoArea>
@@ -41,7 +49,10 @@ function Header({ isLog }) {
       <InfoArea>
         <UserName>20223098 신진욱</UserName>
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
-        <LogLogo src={isLog ? logoutIcon : loginIcon} />
+        <LogLogo
+          src={isLog ? logoutIcon : loginIcon}
+          onClick={onClickLogIcon}
+        />
       </InfoArea>
     </Container>
   );
