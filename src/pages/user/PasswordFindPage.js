@@ -1,27 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function PasswordFindPage() {
-  const [studentId, setStudentId] = useState('');
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    studentId: '',
+    email: '',
+  });
   const [studentIdValid, setStudentIdValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const navigate = useNavigate();
 
-  const onClickNextButton = () => {
-    // 백엔드 요청 및 응답 처리
-    navigate('/reset-password');
-  };
-
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'studentId') {
-      setStudentId(value);
-    } else if (name === 'email') {
-      setEmail(value);
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const onClickNextButton = async () => {
+    try {
+      const response = await axios.post('endPoint', formData);
+      if (response.status === 200) {
+        navigate('/reset-password');
+      }
+    } catch (error) {
+      console.error('비밀번호 찾기', error);
+      // 에러 처리 -> Valid 에러 처리 조건문 나누기
+      setStudentIdValid(false);
+      setEmailValid(false);
     }
   };
 

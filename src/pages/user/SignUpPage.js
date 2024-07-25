@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function SignUpPage() {
-  const [studentId, setStudentId] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    studentId: '',
+    email: '',
+    name: '',
+    password: '',
+  });
   const navigate = useNavigate();
-
-  const onClickSignUpButton = () => {
-    navigate('/login');
-  };
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'studentId') {
-      setStudentId(value);
-    } else if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'name') {
-      setName(value);
-    } else if (name === 'password') {
-      setPassword(value);
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const onClickSignUpButton = async () => {
+    try {
+      const response = await axios.post('endPoint', formData);
+      if (response.status === 200) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('서버 에러', error);
+      // 에러 처리
     }
   };
 

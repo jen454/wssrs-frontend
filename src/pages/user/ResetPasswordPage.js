@@ -1,29 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function ResetPasswordPage() {
-  const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
+  const [formData, setFormData] = useState({
+    password: '',
+    rePassword: '',
+  });
   const [equalPassword, setEqualPassword] = useState(true);
   const navigate = useNavigate();
 
-  const onClickButton = () => {
-    // 백엔드 요청 및 응답 처리
-    if (password !== rePassword) {
-      setEqualPassword(false);
-    }
-    navigate('/sign-in');
-  };
-
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'password') {
-      setPassword(value);
-    } else if (name === 'rePassword') {
-      setRePassword(value);
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const onClickButton = async () => {
+    const { password, rePassword } = formData;
+    if (password !== rePassword) {
+      setEqualPassword(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post('endPoint', { password });
+      if (response.status === 200) {
+        navigate('/sign-in');
+      }
+    } catch (error) {
+      console.error('비밀번호 재설정 오류', error);
+      // 에러 처리
     }
   };
 

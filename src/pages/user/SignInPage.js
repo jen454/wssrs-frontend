@@ -1,17 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
   const navigate = useNavigate();
 
-  const onClickSignUpButton = () => {
-    // api 연결
-    navigate('/');
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const onClickSignInButton = async () => {
+    try {
+      const response = await axios.post('endPoint', formData);
+      if (response.status === 200) {
+        // 로그인 성공 처리
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('로그인 에러', error);
+      // 에러 처리
+    }
   };
 
   const onClickSignUp = () => {
@@ -20,15 +36,6 @@ function SignInPage() {
 
   const onClickFindPassWord = () => {
     navigate('/find-password');
-  };
-
-  const onInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    }
   };
 
   return (
@@ -51,7 +58,7 @@ function SignInPage() {
           <UserAuth onClick={onClickSignUp}>회원가입</UserAuth>
           <UserAuth onClick={onClickFindPassWord}>비밀번호 찾기</UserAuth>
         </UserAuthArea>
-        <LargeBlueButton onClick={onClickSignUpButton} title={'로그인'} />
+        <LargeBlueButton onClick={onClickSignInButton} title={'로그인'} />
       </ContentArea>
     </Container>
   );
