@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import styled from 'styled-components';
 import recruitDetail from '../../assets/post/recruitDetail.svg';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
@@ -9,10 +10,11 @@ import MediumBlueButton from '../../components/Button/MediumBlueButton.js';
 import PostTitle from '../../components/Post/PostTitle.js';
 import ApplyInput from '../../components/Input/ApplyInput.js';
 import Category from '../../components/Post/Category.js';
-import SubmitModal from '../../components/SubmitModal.js';
+import SubmitModal from '../../components/Modal.js';
 
 function ApplyPage() {
   const navigate = useNavigate();
+  const [cookies] = useCookies(['token']);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     applyCode: '',
@@ -36,7 +38,7 @@ function ApplyPage() {
 
   return (
     <Container>
-      <Header isLog={false} />
+      <Header isLog={!!cookies.token} />
       <ContentArea>
         <Category />
         <Menu>
@@ -84,7 +86,12 @@ function ApplyPage() {
       {showModal && (
         <>
           <Backdrop />
-          <SubmitModal onClose={() => setShowModal(false)} />
+          <SubmitModal
+            onClose={() => setShowModal(false)}
+            text={'지원 완료 되었습니다.'}
+            title={'확인'}
+            nav={'/'}
+          />
         </>
       )}
     </Container>

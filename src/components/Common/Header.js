@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
-import loginIcon from '../../assets/header/LoginIcon.svg';
+import loginIcon from '../../assets/header/loginIcon.svg';
 import logoutIcon from '../../assets/header/logoutIcon.svg';
 
 function Header({ isLog }) {

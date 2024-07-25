@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import Category from '../../components/Post/Category.js';
@@ -10,6 +11,7 @@ import recruitDetail from '../../assets/post/recruitDetail.svg';
 
 function PostDetailPage() {
   const navigate = useNavigate();
+  const [cookies] = useCookies(['token']);
 
   const onClickNavigate = () => {
     navigate('/');
@@ -48,7 +50,7 @@ function PostDetailPage() {
 
   return (
     <Container>
-      <Header isLog={false} />
+      <Header isLog={!!cookies.token} />
       <ContentArea>
         <Category />
         <Menu>

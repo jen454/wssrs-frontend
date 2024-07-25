@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import RecruitPoster from '../../components/Post/RecruitPoster.js';
+import LoginModal from '../../components/Modal.js';
 
 function MainPage() {
   const navigate = useNavigate();
+  const [cookies] = useCookies(['token']);
+  const [showModal, setShowModal] = useState(false);
 
   const onClickPost = () => {
-    navigate('/post-detail');
+    if (!cookies.token) {
+      setShowModal(true);
+    } else {
+      navigate('/post-detail');
+    }
   };
 
   return (
     <Container>
-      <Header isLog={false} />
+      <Header isLog={!!cookies.token} />
       <ContentArea>
         <RecruitPoster onClick={onClickPost} />
         <RecruitPoster onClick={onClickPost} />
       </ContentArea>
       <Footer />
+      {showModal && (
+        <>
+          <Backdrop />
+          <LoginModal
+            onClose={() => setShowModal(false)}
+            text={'로그인이 필요합니다.'}
+            title={'로그인하기'}
+            nav={'/sign-in'}
+          />
+        </>
+      )}
     </Container>
   );
 }
@@ -35,6 +54,16 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 `;
 
 export default MainPage;

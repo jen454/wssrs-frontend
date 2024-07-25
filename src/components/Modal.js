@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import MediumBlueButton from './Button/MediumBlueButton';
 
-function SubmitModal({ onClose }) {
+function Modal({ onClose, text, title, nav }) {
   const navigate = useNavigate();
 
   const onClickNavigate = () => {
     onClose();
-    navigate('/');
+    navigate({ nav });
   };
 
   return (
     <Container>
-      <Text>지원 완료 되었습니다.</Text>
-      <MediumBlueButton onClick={onClickNavigate} title={'확인'} />
+      <Text>{text}</Text>
+      <MediumBlueButton onClick={onClickNavigate} title={title} />
     </Container>
   );
 }
@@ -41,4 +41,4 @@ const Text = styled.div`
   font-size: var(--font-size-lr);
 `;
 
-export default SubmitModal;
+export default Modal;
