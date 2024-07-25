@@ -23,7 +23,7 @@ function SignUpPage() {
     try {
       const response = await axios.post('endPoint', formData);
       if (response.status === 200) {
-        navigate('/login');
+        navigate('/sign-in');
       }
     } catch (error) {
       console.error('서버 에러', error);
