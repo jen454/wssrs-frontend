@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { findMember } from '../../api/Auth';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
@@ -21,13 +21,13 @@ function PasswordFindPage() {
 
   const onClickNextButton = async () => {
     try {
-      const response = await axios.post('endPoint', formData);
-      if (response.status === 200) {
-        navigate('/reset-password');
+      const response = await findMember(formData);
+      if (response.accessToken && response.refreshToken) {
+        const { accessToken, refreshToken } = response;
+        navigate('/reset-password', { state: { accessToken, refreshToken } });
       }
     } catch (error) {
       console.error('비밀번호 찾기', error);
-      // 에러 처리 -> Valid 에러 처리 조건문 나누기
       setStudentIdValid(false);
       setEmailValid(false);
     }
@@ -51,7 +51,7 @@ function PasswordFindPage() {
             name="email"
             value={email}
             onChange={onInputChange}
-            placeholder="학교 메일을 입력해주세요."
+            placeholder="이메일을 입력해주세요."
           />
           {!emailValid && <Alert>* 이메일이 유효하지 않습니다!</Alert>}
         </InputArea>

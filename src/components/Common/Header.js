@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
+import { logout } from '../../api/Auth';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import styled from 'styled-components';
 import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
@@ -7,6 +10,11 @@ import logoutIcon from '../../assets/header/logoutIcon.svg';
 
 function Header({ isLog }) {
   const [language, setLanguage] = useState('ko');
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'accessToken',
+    'refreshToken',
+  ]);
+  const navigate = useNavigate();
 
   const onClickLanguageChange = (lang) => {
     setLanguage(lang);
@@ -26,9 +34,20 @@ function Header({ isLog }) {
 
   const transLanguage = translations[language];
 
-  const onClickLogIcon = () => {
+  const onClickLogIcon = async () => {
     if (isLog) {
-      // 로그아웃 처리 로직
+      const accessToken = cookies.accessToken;
+      const refreshToken = cookies.refreshToken;
+      if (!accessToken || !refreshToken) return;
+
+      try {
+        await logout(accessToken, refreshToken);
+        removeCookie('accessToken');
+        removeCookie('refreshToken');
+        navigate('/sign-in');
+      } catch (error) {
+        console.error('로그아웃 에러', error);
+      }
     } else {
       navigate('/sign-in');
     }
@@ -47,7 +66,7 @@ function Header({ isLog }) {
         <Text>{transLanguage.coop}</Text>
       </LogoArea>
       <InfoArea>
-        <UserName>20223098 신진욱</UserName>
+        {isLog && <UserName>20223098 신진욱</UserName>}
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
         <LogLogo
           src={isLog ? logoutIcon : loginIcon}

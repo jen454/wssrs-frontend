@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { signUp } from '../../api/Auth';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
@@ -21,13 +21,10 @@ function SignUpPage() {
 
   const onClickSignUpButton = async () => {
     try {
-      const response = await axios.post('endPoint', formData);
-      if (response.status === 200) {
-        navigate('/sign-in');
-      }
+      const response = await signUp(formData);
+      navigate('/sign-in');
     } catch (error) {
       console.error('서버 에러', error);
-      // 에러 처리
     }
   };
 
@@ -45,7 +42,7 @@ function SignUpPage() {
           name="email"
           value={email}
           onChange={onInputChange}
-          placeholder="학교 메일을 입력해주세요."
+          placeholder="이메일을 입력해주세요."
         />
         <ApplyInput
           name="name"

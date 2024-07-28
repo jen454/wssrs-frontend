@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { login } from '../../api/Auth';
+import { useCookies } from 'react-cookie';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
@@ -10,6 +11,7 @@ function SignInPage() {
     email: '',
     password: '',
   });
+  const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken']);
   const navigate = useNavigate();
 
   const onInputChange = (e) => {
@@ -19,14 +21,12 @@ function SignInPage() {
 
   const onClickSignInButton = async () => {
     try {
-      const response = await axios.post('endPoint', formData);
-      if (response.status === 200) {
-        // 로그인 성공 처리
-        navigate('/');
-      }
+      const response = await login(formData);
+      setCookie('accessToken', response.accessToken);
+      setCookie('refreshToken', response.refreshToken);
+      navigate('/');
     } catch (error) {
       console.error('로그인 에러', error);
-      // 에러 처리
     }
   };
 
@@ -46,7 +46,7 @@ function SignInPage() {
           name="email"
           value={email}
           onChange={onInputChange}
-          placeholder="학교 메일을 입력해주세요."
+          placeholder="이메일을 입력해주세요."
         />
         <ApplyInput
           name="password"

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { React, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { updatePassword } from '../../api/Auth';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
@@ -12,6 +12,8 @@ function ResetPasswordPage() {
   });
   const [equalPassword, setEqualPassword] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { accessToken } = location.state || {};
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,13 +28,12 @@ function ResetPasswordPage() {
     }
 
     try {
-      const response = await axios.post('endPoint', { password });
-      if (response.status === 200) {
+      const response = await updatePassword(password, accessToken);
+      if (response.msg) {
         navigate('/sign-in');
       }
     } catch (error) {
       console.error('비밀번호 재설정 오류', error);
-      // 에러 처리
     }
   };
 
