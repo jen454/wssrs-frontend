@@ -40,7 +40,7 @@ function PasswordFindPage() {
         <InputArea>
           <ApplyInput
             name="studentId"
-            value={studentId}
+            value={formData.studentId}
             onChange={onInputChange}
             placeholder="학번을 입력해주세요."
           />
@@ -49,7 +49,7 @@ function PasswordFindPage() {
         <InputArea>
           <ApplyInput
             name="email"
-            value={email}
+            value={formData.email}
             onChange={onInputChange}
             placeholder="이메일을 입력해주세요."
           />

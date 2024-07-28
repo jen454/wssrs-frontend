@@ -46,14 +46,14 @@ function ResetPasswordPage() {
         </TextArea>
         <ApplyInput
           name="password"
-          value={password}
+          value={formData.password}
           onChange={onInputChange}
           placeholder="비밀번호를 입력해주세요."
         />
         <InputArea>
           <ApplyInput
             name="rePassword"
-            value={rePassword}
+            value={formData.rePassword}
             onChange={onInputChange}
             placeholder="다시 입력해주세요."
           />

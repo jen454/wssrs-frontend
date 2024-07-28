@@ -44,13 +44,13 @@ function SignInPage() {
         <Text>Log In</Text>
         <ApplyInput
           name="email"
-          value={email}
+          value={formData.email}
           onChange={onInputChange}
           placeholder="이메일을 입력해주세요."
         />
         <ApplyInput
           name="password"
-          value={password}
+          value={formData.password}
           onChange={onInputChange}
           placeholder="비밀번호를 입력해주세요."
         />

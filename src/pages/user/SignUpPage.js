@@ -34,25 +34,25 @@ function SignUpPage() {
         <Text>Sign Up</Text>
         <ApplyInput
           name="studentId"
-          value={studentId}
+          value={formData.studentId}
           onChange={onInputChange}
           placeholder="학번을 입력해주세요."
         />
         <ApplyInput
           name="email"
-          value={email}
+          value={formData.email}
           onChange={onInputChange}
           placeholder="이메일을 입력해주세요."
         />
         <ApplyInput
           name="name"
-          value={name}
+          value={formData.name}
           onChange={onInputChange}
           placeholder="이름을 입력해주세요."
         />
         <ApplyInput
           name="password"
-          value={password}
+          value={formData.password}
           onChange={onInputChange}
           placeholder="비밀번호를 입력해주세요."
         />
