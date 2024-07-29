@@ -7,7 +7,7 @@ export const login = async (formData) => {
     const response = await axios.post(`${BASE_URL}/api/auth/login`, formData);
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -16,7 +16,7 @@ export const signUp = async (formData) => {
     const response = await axios.post(`${BASE_URL}/api/auth/sign-up`, formData);
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -30,7 +30,7 @@ export const logout = async (accessToken, refreshToken) => {
     });
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -42,7 +42,7 @@ export const findMember = async (formData) => {
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -59,6 +59,6 @@ export const updatePassword = async (newPassword, accessToken) => {
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
