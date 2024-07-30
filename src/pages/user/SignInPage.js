@@ -2,9 +2,11 @@ import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../api/Auth';
 import { useCookies } from 'react-cookie';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import ApplyInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
+import userState from '../../recoil/userState';
 
 function SignInPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ function SignInPage() {
     password: '',
   });
   const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken']);
+  const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
 
   const onInputChange = (e) => {
@@ -24,6 +27,10 @@ function SignInPage() {
       const response = await login(formData);
       setCookie('accessToken', response.accessToken);
       setCookie('refreshToken', response.refreshToken);
+      setUser({
+        studentId: response.studentId,
+        userName: response.userName,
+      });
       navigate('/');
     } catch (error) {
       console.error('로그인 에러', error);
