@@ -9,6 +9,7 @@ import ListButton from '../../components/Button/ListButton.js';
 import MediumBlueButton from '../../components/Button/MediumBlueButton.js';
 import PostTitle from '../../components/Post/PostTitle.js';
 import ApplyInput from '../../components/Input/ApplyInput.js';
+import ApplyCheckBox from '../../components/Input/ApplyCheckBox.js';
 import Category from '../../components/Post/Category.js';
 import SubmitModal from '../../components/Modal.js';
 
@@ -19,9 +20,10 @@ function ApplyPage() {
   const [formData, setFormData] = useState({
     applyCode: '',
     contactNumber: '',
-    preferredDays: '',
+    preferredDays: [],
     isMember: '',
   });
+  const Days = ['월', '화', '수', '목', '금', '토', '일'];
 
   const onClickNavigate = () => {
     navigate('/');
@@ -30,6 +32,25 @@ function ApplyPage() {
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const onCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prevFormData) => {
+      if (checked) {
+        return {
+          ...prevFormData,
+          preferredDays: [...prevFormData.preferredDays, value],
+        };
+      } else {
+        return {
+          ...prevFormData,
+          preferredDays: prevFormData.preferredDays.filter(
+            (day) => day !== value,
+          ),
+        };
+      }
+    });
   };
 
   const onClickSubmit = () => {
@@ -63,13 +84,20 @@ function ApplyPage() {
                 onChange={onChange}
                 placeholder="010-xxxx-xxxx"
               />
-              <ApplyInput
-                title={'희망 요일'}
-                name="preferredDays"
-                value={formData.preferredDays}
-                onChange={onChange}
-                placeholder="월,화"
-              />
+              <PreferDayArea>
+                <CheckboxTitle>희망 요일</CheckboxTitle>
+                <CheckboxArea>
+                  {Days.map((day) => (
+                    <ApplyCheckBox
+                      key={day}
+                      value={day}
+                      checked={formData.preferredDays.includes(day)}
+                      onChange={onCheckboxChange}
+                      label={day}
+                    />
+                  ))}
+                </CheckboxArea>
+              </PreferDayArea>
               <ApplyInput
                 title={'조합원 가입 유무'}
                 name="isMember"
@@ -132,6 +160,18 @@ const FormArea = styled.div`
   padding: 60px 110px;
 `;
 
+const PreferDayArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const CheckboxArea = styled.div`
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+`;
+
 const Menu = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -142,6 +182,10 @@ const Post = styled.img`
   width: 550px;
   height: 650px;
   background-color: var(--background-color);
+`;
+
+const CheckboxTitle = styled.div`
+  font-size: var(--font-size-lm);
 `;
 
 const Backdrop = styled.div`
