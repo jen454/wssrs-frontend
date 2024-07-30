@@ -8,6 +8,7 @@ import SignUpPage from './pages/user/SignUpPage';
 import PasswordFindPage from './pages/user/PasswordFindPage';
 import ResetPasswordPage from './pages/user/ResetPasswordPage';
 import SignInPage from './pages/user/SignInPage';
+import RecruitManagePage from './pages/admin/RecruitManagePage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/find-password" element={<PasswordFindPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/recruit-manage" element={<RecruitManagePage />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>
