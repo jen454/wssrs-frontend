@@ -25,7 +25,10 @@ const Table = ({ columns, data }) => {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                className={row.original.isConfirmed ? 'confirmed' : ''}
+              >
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
@@ -67,6 +70,10 @@ const TableContainer = styled.div`
 
   th:last-child {
     border-right: none;
+  }
+
+  .confirmed {
+    background-color: var(--color-blue-confirm); /* 하늘색 배경 */
   }
 `;
 
