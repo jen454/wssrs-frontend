@@ -82,7 +82,7 @@ function RecruitManagePage() {
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const onClickAddPost = () => {
-    navigate('/recruit-manage/add');
+    navigate('/recruit-add');
   };
 
   const onClickDeletePost = () => {

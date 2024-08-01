@@ -10,6 +10,7 @@ import ResetPasswordPage from './pages/user/ResetPasswordPage';
 import SignInPage from './pages/user/SignInPage';
 import RecruitManagePage from './pages/admin/RecruitManagePage';
 import RecruitDetailPage from './pages/admin/RecruitDetailPage';
+import RecruitAddPage from './pages/admin/RecruitAddPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/recruit-manage" element={<RecruitManagePage />} />
             <Route path="/recruit-detail" element={<RecruitDetailPage />} />
+            <Route path="/recruit-add" element={<RecruitAddPage />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>
