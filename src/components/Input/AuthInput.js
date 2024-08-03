@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-function ApplyInput({ name, value, onChange, placeholder }) {
+function AuthInput({ name, value, onChange, placeholder }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const onFocus = () => {
@@ -48,4 +48,4 @@ const Input = styled.input`
   border-left: 7px solid var(--color-blue);
 `;
 
-export default ApplyInput;
+export default AuthInput;
