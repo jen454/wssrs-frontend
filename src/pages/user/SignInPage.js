@@ -30,8 +30,14 @@ function SignInPage() {
       setUser({
         studentId: response.studentId,
         userName: response.userName,
+        email: formData.email,
+        isAuthenticated: true,
       });
-      navigate('/');
+      if (formData.email === 'admin' && formData.password === 'admin12!@') {
+        navigate('/recruit-manage');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.error('로그인 에러', error);
     }

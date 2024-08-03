@@ -1,6 +1,6 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import MainPage from './pages/user/MainPage';
 import PostDetailPage from './pages/user/PostDetailPage';
 import ApplyPage from './pages/user/ApplyPage';
@@ -11,6 +11,18 @@ import SignInPage from './pages/user/SignInPage';
 import RecruitManagePage from './pages/admin/RecruitManagePage';
 import RecruitDetailPage from './pages/admin/RecruitDetailPage';
 import RecruitAddPage from './pages/admin/RecruitAddPage';
+import userState from './recoil/userState';
+
+const ProtectedRoute = ({ element, adminOnly }) => {
+  const { isAuthenticated, email } = useRecoilValue(userState);
+  if (!isAuthenticated) {
+    return <Navigate to="/sign-in" />;
+  }
+  if (adminOnly && email !== 'admin') {
+    return <Navigate to="/" />;
+  }
+  return element;
+};
 
 function App() {
   return (
@@ -25,9 +37,30 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/find-password" element={<PasswordFindPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/recruit-manage" element={<RecruitManagePage />} />
-            <Route path="/recruit-detail" element={<RecruitDetailPage />} />
-            <Route path="/recruit-add" element={<RecruitAddPage />} />
+            <Route
+              path="/recruit-manage"
+              element={
+                <ProtectedRoute
+                  element={<RecruitManagePage />}
+                  adminOnly={true}
+                />
+              }
+            />
+            <Route
+              path="/recruit-detail"
+              element={
+                <ProtectedRoute
+                  element={<RecruitDetailPage />}
+                  adminOnly={true}
+                />
+              }
+            />
+            <Route
+              path="/recruit-add"
+              element={
+                <ProtectedRoute element={<RecruitAddPage />} adminOnly={true} />
+              }
+            />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>
