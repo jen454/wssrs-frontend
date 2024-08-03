@@ -20,13 +20,10 @@ export const signUp = async (formData) => {
   }
 };
 
-export const logout = async (accessToken, refreshToken) => {
+export const logout = async (accessToken) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/auth/logout`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'x-refresh-token': refreshToken,
-      },
+    const response = await axios.post(`${BASE_URL}/api/auth/logout`, {
+      accessToken,
     });
     return response.data;
   } catch (error) {
@@ -51,6 +48,23 @@ export const updatePassword = async (newPassword, accessToken) => {
     const response = await axios.post(
       `${BASE_URL}/api/auth/pw/update`,
       { newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const refreshToken = async (accessToken, refreshToken) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/auth/refresh`,
+      { refreshToken },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
