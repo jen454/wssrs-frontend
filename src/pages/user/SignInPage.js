@@ -25,11 +25,12 @@ function SignInPage() {
   const onClickSignInButton = async () => {
     try {
       const response = await login(formData);
+      console.log(response);
       setCookie('accessToken', response.accessToken);
       setCookie('refreshToken', response.refreshToken);
       setUser({
         studentId: response.studentId,
-        userName: response.userName,
+        userName: response.username,
         email: formData.email,
         isAuthenticated: true,
       });

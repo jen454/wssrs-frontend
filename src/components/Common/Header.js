@@ -2,11 +2,13 @@ import { React, useState } from 'react';
 import { logout } from '../../api/Auth';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
 import loginIcon from '../../assets/header/loginIcon.svg';
 import logoutIcon from '../../assets/header/logoutIcon.svg';
+import userState from '../../recoil/userState';
 
 function Header({ isLog }) {
   const [language, setLanguage] = useState('ko');
@@ -15,6 +17,7 @@ function Header({ isLog }) {
     'refreshToken',
   ]);
   const navigate = useNavigate();
+  const userInfo = useRecoilValue(userState);
 
   const onClickLanguageChange = (lang) => {
     setLanguage(lang);
@@ -66,7 +69,7 @@ function Header({ isLog }) {
         <Text>{transLanguage.coop}</Text>
       </LogoArea>
       <InfoArea>
-        {isLog && <UserName>20223098 신진욱</UserName>}
+        {isLog && <UserName>{userInfo.userName}</UserName>}
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
         <LogLogo
           src={isLog ? logoutIcon : loginIcon}

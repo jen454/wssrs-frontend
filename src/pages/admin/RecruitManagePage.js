@@ -11,7 +11,7 @@ import RightArrow from '../../assets/post/RightArrow.svg';
 
 function RecruitManagePage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [data, setData] = useState([
     {
       number: 12,
@@ -148,7 +148,7 @@ function RecruitManagePage() {
 
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <Title>Administration</Title>
         <ButtonArea>
