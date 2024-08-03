@@ -2,12 +2,12 @@ import { React, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { updatePassword } from '../../api/Auth';
 import styled from 'styled-components';
-import ApplyInput from '../../components/Input/AuthInput';
+import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function ResetPasswordPage() {
   const [formData, setFormData] = useState({
-    password: '',
+    newPassword: '',
     rePassword: '',
   });
   const [equalPassword, setEqualPassword] = useState(true);
@@ -20,20 +20,56 @@ function ResetPasswordPage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateForm = () => {
+    const { newPassword, rePassword } = formData;
+    if (!newPassword || !rePassword) {
+      return '모든 필드를 채워주세요.';
+    }
+    return null;
+  };
+
   const onClickButton = async () => {
-    const { password, rePassword } = formData;
-    if (password !== rePassword) {
+    const validationError = validateForm();
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+
+    const { newPassword, rePassword } = formData;
+    if (newPassword !== rePassword) {
       setEqualPassword(false);
       return;
     }
 
     try {
-      const response = await updatePassword(password, accessToken);
-      if (response.msg) {
-        navigate('/sign-in');
-      }
+      const response = await updatePassword(newPassword, accessToken);
+      navigate('/sign-in');
     } catch (error) {
-      console.error('비밀번호 재설정 오류', error);
+      if (error.response) {
+        const { status, code, message } = error.response.data;
+        switch (code) {
+          case 'MEMBER_NOT_FOUND': // AUTH-001
+            alert(message);
+            break;
+          default:
+            switch (status) {
+              case 400:
+                alert('잘못된 요청입니다. 입력한 정보를 확인해 주세요.');
+                break;
+              case 404:
+                alert('요청한 자원을 찾을 수 없습니다.');
+                break;
+              case 500:
+                alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                break;
+              default:
+                alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                break;
+            }
+        }
+      } else {
+        alert('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
+      }
     }
   };
 
@@ -44,14 +80,14 @@ function ResetPasswordPage() {
           <Text>비밀번호 재설정</Text>
           <SubText>새 비밀번호를 입력해주세요.</SubText>
         </TextArea>
-        <ApplyInput
+        <AuthInput
           name="password"
           value={formData.password}
           onChange={onInputChange}
           placeholder="비밀번호를 입력해주세요."
         />
         <InputArea>
-          <ApplyInput
+          <AuthInput
             name="rePassword"
             value={formData.rePassword}
             onChange={onInputChange}

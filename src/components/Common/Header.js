@@ -44,7 +44,7 @@ function Header({ isLog }) {
       if (!accessToken || !refreshToken) return;
 
       try {
-        await logout(accessToken, refreshToken);
+        await logout(accessToken);
         removeCookie('accessToken');
         removeCookie('refreshToken');
         navigate('/sign-in');

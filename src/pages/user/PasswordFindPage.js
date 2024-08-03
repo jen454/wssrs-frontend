@@ -2,16 +2,15 @@ import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { findMember } from '../../api/Auth';
 import styled from 'styled-components';
-import ApplyInput from '../../components/Input/AuthInput';
+import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
 function PasswordFindPage() {
   const [formData, setFormData] = useState({
-    studentId: '',
     email: '',
+    studentId: '',
   });
-  const [studentIdValid, setStudentIdValid] = useState(true);
-  const [emailValid, setEmailValid] = useState(true);
+  const [userInfoValid, setUserInfoValid] = useState(true);
   const navigate = useNavigate();
 
   const onInputChange = (e) => {
@@ -19,7 +18,21 @@ function PasswordFindPage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateForm = () => {
+    const { email, studentId } = formData;
+    if (!email || !studentId) {
+      return '모든 필드를 채워주세요.';
+    }
+    return null;
+  };
+
   const onClickNextButton = async () => {
+    const validationError = validateForm();
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+
     try {
       const response = await findMember(formData);
       if (response.accessToken && response.refreshToken) {
@@ -27,9 +40,32 @@ function PasswordFindPage() {
         navigate('/reset-password', { state: { accessToken, refreshToken } });
       }
     } catch (error) {
-      console.error('비밀번호 찾기', error);
-      setStudentIdValid(false);
-      setEmailValid(false);
+      if (error.response) {
+        const { status, code, message } = error.response.data;
+        switch (code) {
+          case 'MEMBER_NOT_FOUND': // AUTH-001
+            setUserInfoValid(false);
+            alert(message);
+            break;
+          default:
+            switch (status) {
+              case 400:
+                alert('잘못된 요청입니다. 입력한 정보를 확인해 주세요.');
+                break;
+              case 404:
+                alert('요청한 자원을 찾을 수 없습니다.');
+                break;
+              case 500:
+                alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                break;
+              default:
+                alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                break;
+            }
+        }
+      } else {
+        alert('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
+      }
     }
   };
 
@@ -37,23 +73,20 @@ function PasswordFindPage() {
     <Container>
       <ContentArea>
         <Text>비밀번호 찾기</Text>
+        <AuthInput
+          name="studentId"
+          value={formData.studentId}
+          onChange={onInputChange}
+          placeholder="학번을 입력해주세요."
+        />
         <InputArea>
-          <ApplyInput
-            name="studentId"
-            value={formData.studentId}
-            onChange={onInputChange}
-            placeholder="학번을 입력해주세요."
-          />
-          {!studentIdValid && <Alert>* 학번이 유효하지 않습니다!</Alert>}
-        </InputArea>
-        <InputArea>
-          <ApplyInput
+          <AuthInput
             name="email"
             value={formData.email}
             onChange={onInputChange}
             placeholder="이메일을 입력해주세요."
           />
-          {!emailValid && <Alert>* 이메일이 유효하지 않습니다!</Alert>}
+          {!userInfoValid && <Alert>* 사용자 정보가 일치하지 않습니다!</Alert>}
         </InputArea>
         <LargeBlueButton onClick={onClickNextButton} title={'다음'} />
       </ContentArea>
