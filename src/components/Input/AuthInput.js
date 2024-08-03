@@ -18,7 +18,9 @@ function ApplyInput({ name, value, onChange, placeholder }) {
     <Container>
       <Input
         type={
-          name === 'password' || name === 'rePassword' ? 'password' : 'text'
+          name === 'password' || name === 'rePassword' || name === 'newPassword'
+            ? 'password'
+            : 'text'
         }
         name={name}
         value={value}
