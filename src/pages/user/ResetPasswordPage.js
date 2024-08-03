@@ -81,8 +81,8 @@ function ResetPasswordPage() {
           <SubText>새 비밀번호를 입력해주세요.</SubText>
         </TextArea>
         <AuthInput
-          name="password"
-          value={formData.password}
+          name="newPassword"
+          value={formData.newPassword}
           onChange={onInputChange}
           placeholder="비밀번호를 입력해주세요."
         />
