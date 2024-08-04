@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { getAllNotices } from '../../api/User.js';
 import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
@@ -9,28 +10,59 @@ import LoginModal from '../../components/Modal.js';
 
 function MainPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [showModal, setShowModal] = useState(false);
+  const [notices, setNotices] = useState([
+    {
+      id: 0,
+      title: 'string',
+      createdAt: '2024-08-04T04:09:32.292Z',
+      url: ['string'],
+    },
+    {
+      id: 1,
+      title: 'string',
+      createdAt: '2024-08-03T04:09:32.292Z',
+      url: ['string'],
+    },
+  ]);
 
-  const onClickPost = () => {
-    if (!cookies.token) {
+  const onClickPost = (noticeId) => {
+    if (!cookies.accessToken) {
       setShowModal(true);
     } else {
-      navigate('/post-detail');
+      navigate(`/post-detail/${noticeId}`);
     }
   };
 
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const response = await getAllNotices(cookies.accessToken);
+        setNotices(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNotices();
+  }, [cookies.accessToken]);
+
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
-        <RecruitPoster onClick={onClickPost} />
-        <RecruitPoster onClick={onClickPost} />
+        {notices.map((notice) => (
+          <RecruitPoster
+            key={notice.id}
+            date={notice.createdAt}
+            onClick={() => onClickPost(notice.id)}
+          />
+        ))}
       </ContentArea>
       <Footer />
       {showModal && (
         <>
-          <Backdrop />
+          <Backdrop onClick={() => setShowModal(false)} />
           <LoginModal
             onClose={() => setShowModal(false)}
             text={'로그인이 필요합니다.'}

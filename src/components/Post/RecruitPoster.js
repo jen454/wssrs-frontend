@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import recruitPoster from '../../assets/post/recruitPoster.svg';
+import { FormatDate } from '../../util/FormatDate';
 
 function RecruitPoster({ onClick, date }) {
   return (
     <Container onClick={onClick}>
-      <Date>2024년 7월 23일</Date>
+      <Date>{FormatDate(date)}</Date>
       <Poster src={recruitPoster} />
     </Container>
   );

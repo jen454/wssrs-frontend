@@ -31,8 +31,8 @@ function App() {
         <RecoilRoot>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/post-detail" element={<PostDetailPage />} />
-            <Route path="/apply" element={<ApplyPage />} />
+            <Route path="/post-detail/:noticeId" element={<PostDetailPage />} />
+            <Route path="/apply/:noticeId" element={<ApplyPage />} />
             <Route path="sign-in" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/find-password" element={<PasswordFindPage />} />

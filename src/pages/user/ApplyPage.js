@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { getNotice, recruitNotice } from '../../api/User.js';
 import styled from 'styled-components';
 import recruitDetail from '../../assets/post/recruitDetail.svg';
 import Header from '../../components/Common/Header.js';
@@ -13,17 +14,25 @@ import ApplyCheckBox from '../../components/Input/ApplyCheckBox.js';
 import Category from '../../components/Post/Category.js';
 import SubmitModal from '../../components/Modal.js';
 
+const Days = ['월', '화', '수', '목', '금', '토', '일'];
+
 function ApplyPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const { noticeId } = useParams();
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    applyCode: '',
-    contactNumber: '',
-    preferredDays: [],
-    isMember: '',
+  const [notice, setNotice] = useState({
+    id: 0,
+    title: '',
+    content: '',
+    files: [],
   });
-  const Days = ['월', '화', '수', '목', '금', '토', '일'];
+  const [formData, setFormData] = useState({
+    code: '',
+    phoneNum: '',
+    day: [],
+    isUnion: false,
+  });
 
   const onClickNavigate = () => {
     navigate('/');
@@ -40,47 +49,67 @@ function ApplyPage() {
       if (checked) {
         return {
           ...prevFormData,
-          preferredDays: [...prevFormData.preferredDays, value],
+          day: [...prevFormData.day, value],
         };
       } else {
         return {
           ...prevFormData,
-          preferredDays: prevFormData.preferredDays.filter(
-            (day) => day !== value,
-          ),
+          day: prevFormData.day.filter((day) => day !== value),
         };
       }
     });
   };
 
-  const onClickSubmit = () => {
-    setShowModal(true);
+  useEffect(() => {
+    const fetchNotice = async () => {
+      try {
+        const response = await getNotice(cookies.accessToken, noticeId);
+        setNotice({
+          id: response.id,
+          title: response.title,
+          content: response.content,
+          files: response.files,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNotice();
+  }, [cookies.accessToken, noticeId]);
+
+  const onClickSubmit = async () => {
+    try {
+      await recruitNotice(cookies.accessToken, noticeId, formData);
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <Category />
         <Menu>
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={recruitDetail} />
+          <Post src={notice.files[0]} />
           <PostTextArea>
-            <PostTitle title={'[생활협동조합 근로학생 지원]'} />
+            <PostTitle title={notice.title} />
             <FormArea>
               <ApplyInput
                 title={'지원코드'}
-                name="applyCode"
-                value={formData.applyCode}
+                name="code"
+                value={formData.code}
                 onChange={onChange}
                 placeholder="A1"
               />
               <ApplyInput
                 title={'연락처'}
-                name="contactNumber"
-                value={formData.contact}
+                name="phoneNum"
+                value={formData.phoneNum}
                 onChange={onChange}
                 placeholder="010-xxxx-xxxx"
               />
@@ -91,7 +120,7 @@ function ApplyPage() {
                     <ApplyCheckBox
                       key={day}
                       value={day}
-                      checked={formData.preferredDays.includes(day)}
+                      checked={formData.day.includes(day)}
                       onChange={onCheckboxChange}
                       label={day}
                     />
@@ -100,9 +129,11 @@ function ApplyPage() {
               </PreferDayArea>
               <ApplyInput
                 title={'조합원 가입 유무'}
-                name="isMember"
-                value={formData.isMember}
-                onChange={onChange}
+                name="isUnion"
+                value={formData.isUnion ? '예' : '아니오'}
+                onChange={(e) =>
+                  setFormData({ ...formData, isUnion: e.target.value === '예' })
+                }
                 placeholder="예 / 아니오"
               />
             </FormArea>
@@ -113,7 +144,7 @@ function ApplyPage() {
       <Footer />
       {showModal && (
         <>
-          <Backdrop />
+          <Backdrop onClick={() => setShowModal(false)} />
           <SubmitModal
             onClose={() => setShowModal(false)}
             text={'지원 완료 되었습니다.'}

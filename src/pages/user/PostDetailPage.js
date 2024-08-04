@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { getNotice } from '../../api/User.js';
 import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
@@ -11,15 +12,39 @@ import recruitDetail from '../../assets/post/recruitDetail.svg';
 
 function PostDetailPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const { noticeId } = useParams();
+  const [cookies] = useCookies(['accessToken', 'freshToken']);
+  const [notice, setNotice] = useState({
+    id: 0,
+    title: '',
+    content: '',
+    files: [],
+  });
 
   const onClickNavigate = () => {
     navigate('/');
   };
 
   const onClickApplyButton = () => {
-    navigate('/apply');
+    navigate(`/apply/${noticeId}`);
   };
+
+  useEffect(() => {
+    const fetchNotice = async () => {
+      try {
+        const response = await getNotice(cookies.accessToken, noticeId);
+        setNotice({
+          id: response.id,
+          title: response.title,
+          content: response.content,
+          files: response.files,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNotice();
+  }, [cookies.accessToken, noticeId]);
 
   const postContent = `
   1. 모집 부문
@@ -50,17 +75,17 @@ function PostDetailPage() {
 
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <Category />
         <Menu>
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={recruitDetail} />
+          <Post src={notice.files[0]} />
           <PostTextArea>
-            <PostTitle title={'[샐활협동조합 근로학생 모집공고]'} />
-            <TextArea value={postContent} readOnly />
+            <PostTitle title={notice.title} />
+            <TextArea value={notice.content} readOnly />
             <ApplyButton onClick={onClickApplyButton}>
               <Text>지원하기</Text>
             </ApplyButton>
