@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { logout } from '../../api/Auth';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import kmuLogo from '../../assets/header/kmuLogo.svg';
 import LanguageSelector from '../../util/LanguageSelector';
@@ -18,6 +18,7 @@ function Header({ isLog }) {
   ]);
   const navigate = useNavigate();
   const userInfo = useRecoilValue(userState);
+  const setUserInfo = useSetRecoilState(userState);
 
   const onClickLanguageChange = (lang) => {
     setLanguage(lang);
@@ -47,7 +48,14 @@ function Header({ isLog }) {
         await logout(accessToken);
         removeCookie('accessToken');
         removeCookie('refreshToken');
-        navigate('/sign-in');
+        setUserInfo({
+          studentId: '',
+          userName: '',
+          email: '',
+          isAuthenticated: false,
+        });
+        navigate('/');
+        window.location.reload();
       } catch (error) {
         console.error('로그아웃 에러', error);
       }
@@ -69,7 +77,11 @@ function Header({ isLog }) {
         <Text>{transLanguage.coop}</Text>
       </LogoArea>
       <InfoArea>
-        {isLog && <UserName>{userInfo.userName}</UserName>}
+        {isLog && (
+          <UserName>
+            {userInfo.studentId} {userInfo.userName}
+          </UserName>
+        )}
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
         <LogLogo
           src={isLog ? logoutIcon : loginIcon}
