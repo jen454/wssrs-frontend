@@ -35,7 +35,7 @@ function PasswordFindPage() {
 
     try {
       const response = await findMember(formData);
-      if (response.accessToken && response.refreshToken) {
+      if (response.accessToken && !response.refreshToken) {
         const { accessToken, refreshToken } = response;
         navigate('/reset-password', { state: { accessToken, refreshToken } });
       }
