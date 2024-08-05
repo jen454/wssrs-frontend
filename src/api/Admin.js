@@ -1,16 +1,9 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-export const deleteNotice = async (accessToken, noticeId) => {
+export const deleteNotice = async (noticeId) => {
   try {
-    const response = await axios.delete(
-      `${BASE_URL}/api/admin/notice/delete/${noticeId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
+    const response = await apiClient.delete(
+      `/api/admin/notice/delete/${noticeId}`,
     );
     return response.data;
   } catch (error) {
@@ -18,14 +11,11 @@ export const deleteNotice = async (accessToken, noticeId) => {
   }
 };
 
-export const getAllNotices = async (accessToken, pageNum) => {
+export const getAllNotices = async (pageNum) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/admin/notice`, {
+    const response = await apiClient.get(`/api/admin/notice`, {
       params: {
         pageNum,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
       },
     });
     return response.data;
@@ -34,16 +24,9 @@ export const getAllNotices = async (accessToken, pageNum) => {
   }
 };
 
-export const getNotice = async (accessToken, noticeId) => {
+export const getNotice = async (noticeId) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/admin/notice/${noticeId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const response = await apiClient.get(`/api/admin/notice/${noticeId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -52,8 +35,8 @@ export const getNotice = async (accessToken, noticeId) => {
 
 export const confirmRecruit = async (recruitIdData) => {
   try {
-    const response = await axios.patch(
-      `${BASE_URL}/api/admin/recruit/confirm`,
+    const response = await apiClient.patch(
+      `/api/admin/recruit/confirm`,
       recruitIdData,
     );
     return response.data;
@@ -62,14 +45,13 @@ export const confirmRecruit = async (recruitIdData) => {
   }
 };
 
-export const createNorice = async (accessToken, formData) => {
+export const createNotice = async (formData) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/admin/notice/create`,
+    const response = await apiClient.post(
+      `/api/admin/notice/create`,
       formData,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       },

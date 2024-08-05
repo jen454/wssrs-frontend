@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { getNotice, recruitNotice } from '../../api/User.js';
 import styled from 'styled-components';
-import recruitDetail from '../../assets/post/recruitDetail.svg';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import ListButton from '../../components/Button/ListButton.js';
@@ -63,7 +62,7 @@ function ApplyPage() {
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const response = await getNotice(cookies.accessToken, noticeId);
+        const response = await getNotice(noticeId);
         setNotice({
           id: response.id,
           title: response.title,

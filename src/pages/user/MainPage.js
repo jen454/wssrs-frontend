@@ -12,20 +12,7 @@ function MainPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [showModal, setShowModal] = useState(false);
-  const [notices, setNotices] = useState([
-    {
-      id: 0,
-      title: 'string',
-      createdAt: '2024-08-04T04:09:32.292Z',
-      url: ['string'],
-    },
-    {
-      id: 1,
-      title: 'string',
-      createdAt: '2024-08-03T04:09:32.292Z',
-      url: ['string'],
-    },
-  ]);
+  const [notices, setNotices] = useState([]);
 
   const onClickPost = (noticeId) => {
     if (!cookies.accessToken) {
@@ -38,7 +25,7 @@ function MainPage() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await getAllNotices(cookies.accessToken);
+        const response = await getAllNotices();
         setNotices(response);
       } catch (error) {
         console.error(error);

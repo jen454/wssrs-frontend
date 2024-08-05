@@ -1,46 +1,28 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-export const getAllNotices = async (accessToken) => {
+export const getAllNotices = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/user/notice`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await apiClient.get(`/api/user/notice`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getNotice = async (accessToken, noticeId) => {
+export const getNotice = async (noticeId) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/api/user/notice/${noticeId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const response = await apiClient.get(`/api/user/notice/${noticeId}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const recruitNotice = async (accessToken, noticeId, formData) => {
+export const recruitNotice = async (noticeId, formData) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/user/recruit/${noticeId}`,
+    const response = await apiClient.post(
+      `/api/user/recruit/${noticeId}`,
       formData,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
     );
     return response.data;
   } catch (error) {

@@ -1,10 +1,9 @@
+import apiClient from './apiClient';
 import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const login = async (formData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/auth/login`, formData);
+    const response = await apiClient.post(`/api/auth/login`, formData);
     return response.data;
   } catch (error) {
     throw error;
@@ -13,7 +12,7 @@ export const login = async (formData) => {
 
 export const signUp = async (formData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/auth/sign-up`, formData);
+    const response = await apiClient.post(`/api/auth/sign-up`, formData);
     return response.data;
   } catch (error) {
     throw error;
@@ -22,9 +21,14 @@ export const signUp = async (formData) => {
 
 export const logout = async (accessToken) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/auth/logout`, {
+    const tempClient = axios.create({
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+    });
+
+    const response = await tempClient.post(`/api/auth/logout`, {
       accessToken,
     });
+
     return response.data;
   } catch (error) {
     throw error;
@@ -33,10 +37,7 @@ export const logout = async (accessToken) => {
 
 export const findMember = async (formData) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/auth/pw/findMember`,
-      formData,
-    );
+    const response = await apiClient.post(`/api/auth/pw/findMember`, formData);
     return response.data;
   } catch (error) {
     throw error;
@@ -45,8 +46,8 @@ export const findMember = async (formData) => {
 
 export const updatePassword = async (newPassword, accessToken) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/auth/pw/update`,
+    const response = await apiClient.post(
+      `/api/auth/pw/update`,
       { newPassword },
       {
         headers: {
@@ -60,17 +61,11 @@ export const updatePassword = async (newPassword, accessToken) => {
   }
 };
 
-export const refreshToken = async (accessToken, refreshToken) => {
+export const refreshToken = async (refreshToken) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/auth/refresh`,
-      { refreshToken },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const response = await apiClient.post(`/api/auth/refresh`, {
+      refreshToken,
+    });
     return response.data;
   } catch (error) {
     throw error;

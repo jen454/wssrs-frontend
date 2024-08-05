@@ -8,7 +8,6 @@ import Footer from '../../components/Common/Footer.js';
 import Category from '../../components/Post/Category.js';
 import ListButton from '../../components/Button/ListButton.js';
 import PostTitle from '../../components/Post/PostTitle.js';
-import recruitDetail from '../../assets/post/recruitDetail.svg';
 
 function PostDetailPage() {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ function PostDetailPage() {
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const response = await getNotice(cookies.accessToken, noticeId);
+        const response = await getNotice(noticeId);
         setNotice({
           id: response.id,
           title: response.title,
@@ -45,33 +44,6 @@ function PostDetailPage() {
     };
     fetchNotice();
   }, [cookies.accessToken, noticeId]);
-
-  const postContent = `
-  1. 모집 부문
-  - 북악관 쿱스켓
-  - 과학관 쿱스켓
-  - 공학관 쿱스켓
-  - 생활관 쿱스켓
-  - 복지관 쿱스켓
-  - 법학관 쿱스켓
-  - 예술관 쿱스켓
-
-  2. 지원자격 : 국민대학교 재학생(2024년 1학기 학부생 기준)
-
-  3. 제출서류 : 재학증명서 , 통장사본
-
-  4. 근로기간 : 2024.6.24.~2024.8.30.
-
-  5. 결과발표 : 합격자 개별통보
-
-  6. 신청방법 : 국민대학교 생활협동조합 홈페이지에서 지원 신청
-  - 필수기입사항 : 지원코드, 연락처, 희망 요일, 조합원 가입 여부
-
-  7. 기타사항
-  (1) 사전교육은 근로시간으로 인정하며, 합격 통보 시 교육일정 협의 예정
-  (2) 근로 시작일 및 종료일, 근로 시간 등은 지점 상황에 따라 변동 될 수 있음.
-  (3) 일부 매장은 조기 마감 될 수 있음.
-  `;
 
   return (
     <Container>
