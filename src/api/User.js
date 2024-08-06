@@ -1,8 +1,13 @@
 import apiClient from './apiClient';
+import axios from 'axios';
 
 export const getAllNotices = async () => {
   try {
-    const response = await apiClient.get(`/api/user/notice`);
+    const tempClient = axios.create({
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+    });
+
+    const response = await tempClient.get(`/api/user/notice`);
     return response.data;
   } catch (error) {
     throw error;
