@@ -110,7 +110,7 @@ function ApplyPage() {
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={notice.files[0]} />
+          <Post src={notice.files[0].url} />
           <PostTextArea>
             <PostTitle title={notice.title} />
             <FormArea>
