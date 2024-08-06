@@ -39,7 +39,31 @@ function PostDetailPage() {
           files: response.files,
         });
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          const { status, code, message } = error.response.data;
+          switch (code) {
+            case 'MEMBER_NOT_FOUND': // AUTH-001
+              alert(message);
+              break;
+            default:
+              switch (status) {
+                case 400:
+                  alert('잘못된 요청입니다. 입력한 정보를 확인해 주세요.');
+                  break;
+                case 404:
+                  alert('요청한 자원을 찾을 수 없습니다.');
+                  break;
+                case 500:
+                  alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                  break;
+                default:
+                  alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                  break;
+              }
+          }
+        } else {
+          alert('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
+        }
       }
     };
     fetchNotice();
@@ -54,7 +78,7 @@ function PostDetailPage() {
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={notice.files[0]} />
+          <Post src={notice.files[0].url} />
           <PostTextArea>
             <PostTitle title={notice.title} />
             <TextArea value={notice.content} readOnly />

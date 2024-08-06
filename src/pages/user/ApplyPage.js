@@ -70,7 +70,23 @@ function ApplyPage() {
           files: response.files,
         });
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          switch (error.response.status) {
+            case 400:
+              alert('잘못된 요청입니다. 요청 데이터를 확인해주세요.');
+              break;
+            case 404:
+              alert('요청한 리소스를 찾을 수 없습니다.');
+              break;
+            case 500:
+              alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+              break;
+            default:
+              alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+          }
+        } else {
+          alert('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
+        }
       }
     };
     fetchNotice();
@@ -78,7 +94,7 @@ function ApplyPage() {
 
   const onClickSubmit = async () => {
     try {
-      await recruitNotice(cookies.accessToken, noticeId, formData);
+      await recruitNotice(noticeId, formData);
       setShowModal(true);
     } catch (error) {
       console.error(error);
