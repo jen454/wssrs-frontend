@@ -32,6 +32,7 @@ function PostDetailPage() {
     const fetchNotice = async () => {
       try {
         const response = await getNotice(noticeId);
+        console.log(response);
         setNotice({
           id: response.id,
           title: response.title,
@@ -78,7 +79,9 @@ function PostDetailPage() {
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={notice.files[0].url} />
+          {notice.files.length > 0 && (
+            <Post src={notice.files[0].url} alt="Notice Image" />
+          )}
           <PostTextArea>
             <PostTitle title={notice.title} />
             <TextArea value={notice.content} readOnly />

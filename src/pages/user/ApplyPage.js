@@ -30,7 +30,7 @@ function ApplyPage() {
     code: '',
     phoneNum: '',
     day: [],
-    isUnion: false,
+    isUnion: null,
   });
 
   const onClickNavigate = () => {
@@ -57,6 +57,10 @@ function ApplyPage() {
         };
       }
     });
+  };
+
+  const onUnionChange = (e) => {
+    setFormData({ ...formData, isUnion: e.target.value === '예' });
   };
 
   useEffect(() => {
@@ -110,7 +114,9 @@ function ApplyPage() {
           <ListButton onClick={onClickNavigate} />
         </Menu>
         <PostArea>
-          <Post src={notice.files[0].url} />
+          {notice.files.length > 0 && (
+            <Post src={notice.files[0].url} alt="Notice Image" />
+          )}
           <PostTextArea>
             <PostTitle title={notice.title} />
             <FormArea>
@@ -142,15 +148,23 @@ function ApplyPage() {
                   ))}
                 </CheckboxArea>
               </PreferDayArea>
-              <ApplyInput
-                title={'조합원 가입 유무'}
-                name="isUnion"
-                value={formData.isUnion ? '예' : '아니오'}
-                onChange={(e) =>
-                  setFormData({ ...formData, isUnion: e.target.value === '예' })
-                }
-                placeholder="예 / 아니오"
-              />
+              <UnionArea>
+                <CheckboxTitle>조합원 가입 유무</CheckboxTitle>
+                <CheckboxArea>
+                  <ApplyCheckBox
+                    value="예"
+                    checked={formData.isUnion === true}
+                    onChange={onUnionChange}
+                    label="예"
+                  />
+                  <ApplyCheckBox
+                    value="아니오"
+                    checked={formData.isUnion === false}
+                    onChange={onUnionChange}
+                    label="아니오"
+                  />
+                </CheckboxArea>
+              </UnionArea>
             </FormArea>
             <MediumBlueButton title={'제출하기'} onClick={onClickSubmit} />
           </PostTextArea>
@@ -207,6 +221,12 @@ const FormArea = styled.div`
 `;
 
 const PreferDayArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const UnionArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
