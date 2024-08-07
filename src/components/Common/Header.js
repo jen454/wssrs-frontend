@@ -11,7 +11,6 @@ import logoutIcon from '../../assets/header/logoutIcon.svg';
 import userState from '../../recoil/userState';
 
 function Header({ isLog }) {
-  const [language, setLanguage] = useState('ko');
   const [cookies, setCookie, removeCookie] = useCookies([
     'accessToken',
     'refreshToken',
@@ -19,6 +18,7 @@ function Header({ isLog }) {
   const navigate = useNavigate();
   const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
+  const [language, setLanguage] = useState('ko');
 
   const onClickLanguageChange = (lang) => {
     setLanguage(lang);
@@ -57,6 +57,7 @@ function Header({ isLog }) {
         navigate('/');
         window.location.reload();
       } catch (error) {
+        alert('로그아웃에 실패했습니다.');
         console.error('로그아웃 에러', error);
       }
     } else {
@@ -72,7 +73,7 @@ function Header({ isLog }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Logo src={kmuLogo} />
+          <Image src={kmuLogo} width="134px" height="50px" />
         </a>
         <Text>{transLanguage.coop}</Text>
       </LogoArea>
@@ -83,8 +84,10 @@ function Header({ isLog }) {
           </UserName>
         )}
         <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
-        <LogLogo
+        <Image
           src={isLog ? logoutIcon : loginIcon}
+          width="30px"
+          height="30px"
           onClick={onClickLogIcon}
         />
       </InfoArea>
@@ -119,15 +122,9 @@ const InfoArea = styled.div`
   background-color: var(--color-yellow);
 `;
 
-const Logo = styled.img`
-  width: 134px;
-  height: 50px;
-  cursor: pointer;
-`;
-
-const LogLogo = styled.img`
-  width: 30px;
-  height: 30px;
+const Image = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   cursor: pointer;
 `;
 

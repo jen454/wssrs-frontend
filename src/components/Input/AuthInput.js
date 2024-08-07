@@ -42,10 +42,8 @@ const Input = styled.input`
   text-align: center;
   box-sizing: border-box;
   border-radius: 20px;
-  border-top: 1px solid var(--color-blue);
-  border-right: 1px solid var(--color-blue);
-  border-bottom: 1px solid var(--color-blue);
-  border-left: 7px solid var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-left-width: 7px;
 `;
 
 export default AuthInput;

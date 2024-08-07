@@ -21,9 +21,8 @@ const Container = styled.div`
 const Date = styled.div`
   font-size: var(--font-size-lm);
   padding: 10px 15px;
-  border-top: 0.5px solid var(--color-gray-500);
-  border-left: 0.5px solid var(--color-gray-500);
-  border-right: 0.5px solid var(--color-gray-500);
+  border: 0.5px solid var(--color-gray-500);
+  border-bottom: none;
 `;
 
 const Poster = styled.img`

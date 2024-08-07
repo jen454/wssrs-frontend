@@ -5,7 +5,19 @@ import instaLogo from '../../assets/footer/instaLogo.svg';
 import faceBookLogo from '../../assets/footer/faceBookLogo.svg';
 import twitterLogo from '../../assets/footer/twitterLogo.svg';
 
-function Header() {
+function Footer() {
+  const socialMediaLinks = [
+    { href: 'https://www.instagram.com/kookmin.univ', src: instaLogo },
+    { href: 'https://www.facebook.com/kookmin.univ', src: faceBookLogo },
+    { href: 'https://x.com/kmu_tweet', src: twitterLogo },
+  ];
+
+  const policyTexts = [
+    '개인정보처리방침',
+    '02707 서울특별시 성북구 정릉로 77 국민대학교 TEL 02.910.4114',
+    'COPYRIGHT© 2024 WINK ALL RIGHTS RESERVED.',
+  ];
+
   return (
     <Container>
       <ContentArea>
@@ -14,38 +26,25 @@ function Header() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Logo src={kmuLogo} />
+          <Image src={kmuLogo} width="134px" height="50px" />
         </a>
         <PolicyArea>
-          <Title>개인정보처리방침</Title>
-          <Address>
-            02707 서울특별시 성북구 정릉로 77 국민대학교 TEL 02.910.4114
-          </Address>
-          <Copyright>COPYRIGHT© 2024 WINK ALL RIGHTS RESERVED.</Copyright>
+          {policyTexts.map((text, index) => (
+            <SmallMediumText key={index}>{text}</SmallMediumText>
+          ))}
         </PolicyArea>
       </ContentArea>
       <InfoArea>
-        <a
-          href="https://www.instagram.com/kookmin.univ"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InfoLogo src={instaLogo} />
-        </a>
-        <a
-          href="https://www.facebook.com/kookmin.univ"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InfoLogo src={faceBookLogo} />
-        </a>
-        <a
-          href="https://x.com/kmu_tweet"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InfoLogo src={twitterLogo} />
-        </a>
+        {socialMediaLinks.map((link, index) => (
+          <a
+            key={index}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image src={link.src} width="30px" height="30px" />
+          </a>
+        ))}
       </InfoArea>
     </Container>
   );
@@ -79,31 +78,15 @@ const InfoArea = styled.div`
   gap: 30px;
 `;
 
-const Logo = styled.img`
-  width: 134px;
-  height: 50px;
+const Image = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   cursor: pointer;
 `;
 
-const InfoLogo = styled.img`
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-`;
-
-const Title = styled.div`
+const SmallMediumText = styled.div`
   font-size: var(--font-size-sm);
   color: var(--color-gray-500);
 `;
 
-const Address = styled.div`
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-500);
-`;
-
-const Copyright = styled.div`
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-500);
-`;
-
-export default Header;
+export default Footer;

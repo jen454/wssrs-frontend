@@ -2,11 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 function Category() {
-  return (
-    <Container>
-      <Text>근로신청</Text>
-    </Container>
-  );
+  return <Container>근로신청</Container>;
 }
 
 const Container = styled.div`
@@ -16,9 +12,6 @@ const Container = styled.div`
   padding: 0px 40px;
   border-bottom: 1px solid var(--color-gray-500);
   background-color: var(--background-color);
-`;
-
-const Text = styled.div`
   font-size: var(--font-size-lr);
 `;
 
