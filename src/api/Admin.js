@@ -33,12 +33,11 @@ export const getNotice = async (noticeId) => {
   }
 };
 
-export const confirmRecruit = async (recruitIdData) => {
+export const confirmRecruit = async (recruitIds) => {
   try {
-    const response = await apiClient.patch(
-      `/api/admin/recruit/confirm`,
-      recruitIdData,
-    );
+    const response = await apiClient.patch(`/api/admin/recruit/confirm`, {
+      recruitIds,
+    });
     return response.data;
   } catch (error) {
     throw error;

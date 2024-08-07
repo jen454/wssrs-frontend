@@ -47,7 +47,7 @@ function App() {
               }
             />
             <Route
-              path="/recruit-detail"
+              path="/recruit-detail/:noticeId"
               element={
                 <ProtectedRoute
                   element={<RecruitDetailPage />}

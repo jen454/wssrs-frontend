@@ -1,83 +1,85 @@
-import { React, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { getNotice, confirmRecruit } from '../../api/Admin.js';
+import { transformDays } from '../../util/TransFormDays.js';
 import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import RecruitManageButton from '../../components/Button/RecruitManageButton.js';
-import Table from '../../components/Table.js';
+import ApplyTable from '../../components/Table/ApplyTable.js';
 import LeftArrow from '../../assets/post/LeftArrow.svg';
 import RightArrow from '../../assets/post/RightArrow.svg';
 import BackArrow from '../../assets/post/BackArrow.svg';
 
 function RecruitDetailPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
-  const [data, setData] = useState([
-    {
-      number: 1,
-      userName: '신진욱',
-      studentId: '20223098',
-      contactNumber: '010-4630-2765',
-      workCode: 'A1',
-      preferredDays: ['월', '화', '수', '목', '금', '토', '일'],
-      isMember: '예',
-      isConfirmed: false,
-    },
-    {
-      number: 2,
-      userName: '신진욱',
-      studentId: '20223098',
-      contactNumber: '010-4630-2765',
-      workCode: 'A1',
-      preferredDays: ['월', '화'],
-      isMember: '예',
-      isConfirmed: false,
-    },
-    {
-      number: 3,
-      userName: '신진욱',
-      studentId: '20223098',
-      contactNumber: '010-4630-2765',
-      workCode: 'A1',
-      preferredDays: ['월', '화'],
-      isMember: '예',
-      isConfirmed: false,
-    },
-  ]);
+  const { noticeId } = useParams();
+  const location = useLocation();
+  const { formattedDate } = location.state || {};
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
+  const [notice, setNotices] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(notice.length / itemsPerPage);
+
+  useEffect(() => {
+    const fetchNotice = async () => {
+      try {
+        const response = await getNotice(noticeId);
+        const transformedData = response.map((item) => ({
+          ...item,
+          day: transformDays(item.day),
+        }));
+        setNotices(transformedData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchNotice();
+  }, [noticeId]);
 
   const onClickBackArrow = () => {
     navigate(-1);
   };
 
-  const onClickConfirmPost = () => {
-    if (showCheckboxes && selectedRows.length > 0) {
-      setData((prevData) =>
-        prevData.map((row) =>
-          selectedRows.includes(row.number)
-            ? { ...row, isConfirmed: true }
-            : row,
-        ),
-      );
-      setSelectedRows([]);
-      setShowCheckboxes(false);
+  const onClickConfirmPost = async () => {
+    if (showCheckboxes) {
+      if (selectedRows.length > 0) {
+        try {
+          const recruitIds = selectedRows;
+          await confirmRecruit(recruitIds);
+
+          const response = await getNotice(noticeId);
+          const transformedData = response.map((item) => ({
+            ...item,
+            day: transformDays(item.day),
+          }));
+          setNotices(transformedData);
+          setSelectedRows([]);
+          setShowCheckboxes(false);
+        } catch (error) {
+          console.error('확정에 실패했습니다:', error);
+        }
+      } else {
+        setShowCheckboxes(false);
+      }
     } else {
-      setShowCheckboxes(!showCheckboxes);
+      setShowCheckboxes(true);
     }
   };
 
-  const onChangeCheckBox = (number) => {
-    setSelectedRows((prevSelectedRows) =>
-      prevSelectedRows.includes(number)
-        ? prevSelectedRows.filter((num) => num !== number)
-        : [...prevSelectedRows, number],
-    );
+  const onChangeCheckBox = (id) => {
+    setSelectedRows((prevSelectedRows) => {
+      const updatedRows = prevSelectedRows.includes(id)
+        ? prevSelectedRows.filter((num) => num !== id)
+        : [...prevSelectedRows, id];
+      return updatedRows;
+    });
   };
 
   const onChangePage = (direction) => {
@@ -92,7 +94,7 @@ function RecruitDetailPage() {
     });
   };
 
-  const currentData = data.slice(
+  const currentData = notice.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
@@ -100,41 +102,41 @@ function RecruitDetailPage() {
   const columns = [
     {
       Header: '번호',
-      accessor: 'number',
+      accessor: 'recruitId',
       Cell: ({ row }) => (
         <div>
           {showCheckboxes ? (
             <input
               type="checkbox"
-              checked={selectedRows.includes(row.original.number)}
-              onChange={() => onChangeCheckBox(row.original.number)}
+              checked={selectedRows.includes(row.original.recruitId)}
+              onChange={() => onChangeCheckBox(row.original.recruitId)}
             />
           ) : (
-            row.original.number
+            row.original.recruitId
           )}
         </div>
       ),
     },
-    { Header: '이름', accessor: 'userName' },
+    { Header: '이름', accessor: 'username' },
     { Header: '학번', accessor: 'studentId' },
-    { Header: '연락처', accessor: 'contactNumber' },
-    { Header: '근무코드', accessor: 'workCode' },
+    { Header: '연락처', accessor: 'phoneNum' },
+    { Header: '근무코드', accessor: 'code' },
+    { Header: '희망요일', accessor: 'day' },
     {
-      Header: '희망요일',
-      accessor: 'preferredDays',
-      Cell: ({ cell: { value } }) => value.join(', '),
+      Header: '조합원 가입 유무',
+      accessor: 'isUnion',
+      Cell: ({ value }) => (value ? '예' : '아니요'),
     },
-    { Header: '조합원 가입 유무', accessor: 'isMember' },
   ];
 
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <TitleArea>
           <Wraaper>
             <BackArrowIcon src={BackArrow} onClick={onClickBackArrow} />
-            <Date>2024.07.18</Date>
+            <Date>{formattedDate}</Date>
           </Wraaper>
           <Title>Administration</Title>
         </TitleArea>
@@ -150,7 +152,11 @@ function RecruitDetailPage() {
             onClick={onClickConfirmPost}
           />
         </ButtonArea>
-        <Table columns={columns} data={currentData} />
+        <ApplyTable
+          columns={columns}
+          data={currentData}
+          onChangeCheckBox={onChangeCheckBox}
+        />
         <ArrowArea>
           <ArrowIcon
             src={LeftArrow}

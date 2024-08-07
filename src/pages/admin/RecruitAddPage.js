@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { createNotice } from '../../api/Admin.js';
 import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
@@ -8,21 +9,21 @@ import imageSelector from '../../assets/post/imageSelector.svg';
 
 function RecruitAddPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [title, setTitle] = useState('');
   const [files, setFiles] = useState([]);
   const [content, setContent] = useState('');
 
-  const onTitleChange = (e) => {
+  const onChangeTitle = (e) => {
     setTitle(e.target.value);
   };
 
-  const onFileChange = (e) => {
+  const onChangeFile = (e) => {
     const newFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  const onContentChange = (e) => {
+  const onChangeContent = (e) => {
     setContent(e.target.value);
   };
 
@@ -35,28 +36,35 @@ function RecruitAddPage() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-    files.forEach((file, index) => {
-      formData.append(`file_${index}`, file);
+    files.forEach((file) => {
+      formData.append('files', file);
     });
-    navigate('/recruit-manage');
+
+    try {
+      await createNotice(formData);
+      alert('공고글이 성공적으로 등록되었습니다.');
+      navigate('/recruit-manage');
+    } catch (error) {
+      alert('공고글 등록에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
     <Container>
-      <Header isLog={!!cookies.token} />
+      <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <Title>Administration</Title>
         <FormArea>
           <Input
             type="text"
             value={title}
-            onChange={onTitleChange}
+            onChange={onChangeTitle}
             placeholder="제목"
           />
           <FileInputArea>
             <FileInput
               type="file"
-              onChange={onFileChange}
+              onChange={onChangeFile}
               multiple
               id="fileInput"
               accept="image/*"
@@ -82,7 +90,7 @@ function RecruitAddPage() {
           </FileInputArea>
           <Textarea
             value={content}
-            onChange={onContentChange}
+            onChange={onChangeContent}
             placeholder="내용을 입력해주세요."
           />
           <ButtonArea>
