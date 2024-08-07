@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
 import koreanLogo from '../assets/header/koreanLogo.svg';
 import englishLogo from '../assets/header/englishLogo.svg';
@@ -18,20 +18,25 @@ function LanguageSelector({ onClickLanguageChange }) {
     onClickLanguageChange(lang);
   };
 
+  const languages = [
+    { logo: koreanLogo, lang: 'ko', text: '한국어' },
+    { logo: englishLogo, lang: 'en', text: 'English' },
+    { logo: chineseLogo, lang: 'zh', text: '汉语' },
+  ];
+
   return (
     <Container>
       <TransLogo src={selectedLogo} onClick={toggleDropdown} />
       {isDropdownVisible && (
         <Dropdown>
-          <DropdownItem onClick={() => onClickLogoChange(koreanLogo, 'ko')}>
-            <Text>한국어</Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => onClickLogoChange(englishLogo, 'en')}>
-            <Text>English</Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => onClickLogoChange(chineseLogo, 'zh')}>
-            <Text>汉语</Text>
-          </DropdownItem>
+          {languages.map(({ logo, lang, text }) => (
+            <DropdownItem
+              key={lang}
+              onClick={() => onClickLogoChange(logo, lang)}
+            >
+              {text}
+            </DropdownItem>
+          ))}
         </Dropdown>
       )}
     </Container>
@@ -50,10 +55,6 @@ const TransLogo = styled.img`
   cursor: pointer;
 `;
 
-const Text = styled.div`
-  font-size: var(--font-size-xs);
-`;
-
 const Dropdown = styled.div`
   position: absolute;
   top: 30px;
@@ -68,6 +69,7 @@ const Dropdown = styled.div`
 const DropdownItem = styled.div`
   padding: 5px;
   cursor: pointer;
+  font-size: var(--font-size-xs);
   &:hover {
     background-color: var(--color-gray-100);
   }
