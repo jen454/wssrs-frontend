@@ -13,9 +13,7 @@ import ApplyCheckBox from '../../components/Input/ApplyCheckBox.js';
 import Category from '../../components/Post/Category.js';
 import SubmitModal from '../../components/Modal.js';
 
-const Days = ['월', '화', '수', '목', '금', '토', '일'];
-
-function ApplyPage() {
+export default function ApplyPage() {
   const navigate = useNavigate();
   const { noticeId } = useParams();
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
@@ -33,9 +31,35 @@ function ApplyPage() {
     isUnion: null,
   });
 
-  const onClickNavigate = () => {
-    navigate('/');
-  };
+  const Days = ['월', '화', '수', '목', '금', '토', '일'];
+
+  const inputFields = [
+    {
+      title: '지원코드',
+      name: 'code',
+      value: formData.code,
+      placeholder: 'A1',
+    },
+    {
+      title: '연락처',
+      name: 'phoneNum',
+      value: formData.phoneNum,
+      placeholder: '010-xxxx-xxxx',
+    },
+  ];
+
+  const checkBoxOptions = [
+    {
+      value: true,
+      checked: formData.isUnion === true,
+      label: '예',
+    },
+    {
+      value: false,
+      checked: formData.isUnion === false,
+      label: '아니오',
+    },
+  ];
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -94,13 +118,14 @@ function ApplyPage() {
       }
     };
     fetchNotice();
-  }, [cookies.accessToken, noticeId]);
+  }, [noticeId]);
 
   const onClickSubmit = async () => {
     try {
       await recruitNotice(noticeId, formData);
       setShowModal(true);
     } catch (error) {
+      alert('지원에 실패했습니다.');
       console.error(error);
     }
   };
@@ -111,7 +136,7 @@ function ApplyPage() {
       <ContentArea>
         <Category />
         <Menu>
-          <ListButton onClick={onClickNavigate} />
+          <ListButton onClick={() => navigate('/')} />
         </Menu>
         <PostArea>
           {notice.files.length > 0 && (
@@ -120,20 +145,16 @@ function ApplyPage() {
           <PostTextArea>
             <PostTitle title={notice.title} />
             <FormArea>
-              <ApplyInput
-                title={'지원코드'}
-                name="code"
-                value={formData.code}
-                onChange={onChange}
-                placeholder="A1"
-              />
-              <ApplyInput
-                title={'연락처'}
-                name="phoneNum"
-                value={formData.phoneNum}
-                onChange={onChange}
-                placeholder="010-xxxx-xxxx"
-              />
+              {inputFields.map((field, index) => (
+                <ApplyInput
+                  key={index}
+                  title={field.title}
+                  name={field.name}
+                  value={field.value}
+                  onChange={onChange}
+                  placeholder={field.placeholder}
+                />
+              ))}
               <PreferDayArea>
                 <CheckboxTitle>희망 요일</CheckboxTitle>
                 <CheckboxArea>
@@ -151,18 +172,15 @@ function ApplyPage() {
               <UnionArea>
                 <CheckboxTitle>조합원 가입 유무</CheckboxTitle>
                 <CheckboxArea>
-                  <ApplyCheckBox
-                    value="예"
-                    checked={formData.isUnion === true}
-                    onChange={onUnionChange}
-                    label="예"
-                  />
-                  <ApplyCheckBox
-                    value="아니오"
-                    checked={formData.isUnion === false}
-                    onChange={onUnionChange}
-                    label="아니오"
-                  />
+                  {checkBoxOptions.map((option, index) => (
+                    <ApplyCheckBox
+                      key={index}
+                      value={option.value}
+                      checked={option.checked}
+                      onChange={onUnionChange}
+                      label={option.label}
+                    />
+                  ))}
                 </CheckboxArea>
               </UnionArea>
             </FormArea>
@@ -198,6 +216,8 @@ const ContentArea = styled.div`
   flex-direction: column;
 `;
 
+const PostTextArea = styled(ContentArea)``;
+
 const PostArea = styled.div`
   display: flex;
   width: 100%;
@@ -205,12 +225,6 @@ const PostArea = styled.div`
   justify-content: center;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: var(--color-gray-10);
-`;
-
-const PostTextArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
 `;
 
 const FormArea = styled.div`
@@ -226,11 +240,7 @@ const PreferDayArea = styled.div`
   gap: 5px;
 `;
 
-const UnionArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
+const UnionArea = styled(PreferDayArea)``;
 
 const CheckboxArea = styled.div`
   display: flex;
@@ -263,5 +273,3 @@ const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 `;
-
-export default ApplyPage;

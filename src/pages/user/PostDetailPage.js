@@ -9,7 +9,7 @@ import Category from '../../components/Post/Category.js';
 import ListButton from '../../components/Button/ListButton.js';
 import PostTitle from '../../components/Post/PostTitle.js';
 
-function PostDetailPage() {
+export default function PostDetailPage() {
   const navigate = useNavigate();
   const { noticeId } = useParams();
   const [cookies] = useCookies(['accessToken', 'freshToken']);
@@ -20,19 +20,10 @@ function PostDetailPage() {
     files: [],
   });
 
-  const onClickNavigate = () => {
-    navigate('/');
-  };
-
-  const onClickApplyButton = () => {
-    navigate(`/apply/${noticeId}`);
-  };
-
   useEffect(() => {
     const fetchNotice = async () => {
       try {
         const response = await getNotice(noticeId);
-        console.log(response);
         setNotice({
           id: response.id,
           title: response.title,
@@ -68,7 +59,7 @@ function PostDetailPage() {
       }
     };
     fetchNotice();
-  }, [cookies.accessToken, noticeId]);
+  }, [noticeId]);
 
   return (
     <Container>
@@ -76,7 +67,7 @@ function PostDetailPage() {
       <ContentArea>
         <Category />
         <Menu>
-          <ListButton onClick={onClickNavigate} />
+          <ListButton onClick={() => navigate('/')} />
         </Menu>
         <PostArea>
           {notice.files.length > 0 && (
@@ -85,7 +76,7 @@ function PostDetailPage() {
           <PostTextArea>
             <PostTitle title={notice.title} />
             <TextArea value={notice.content} readOnly />
-            <ApplyButton onClick={onClickApplyButton}>
+            <ApplyButton onClick={() => navigate(`/apply/${noticeId}`)}>
               <Text>지원하기</Text>
             </ApplyButton>
           </PostTextArea>
@@ -108,6 +99,8 @@ const ContentArea = styled.div`
   flex-direction: column;
 `;
 
+const PostTextArea = styled(ContentArea)``;
+
 const PostArea = styled.div`
   display: flex;
   width: 100%;
@@ -115,12 +108,6 @@ const PostArea = styled.div`
   justify-content: center;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: var(--color-gray-10);
-`;
-
-const PostTextArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
 `;
 
 const TextArea = styled.textarea`
@@ -171,5 +158,3 @@ const Text = styled.div`
   font-size: var(--font-size-lm);
   font-weight: var(--font-weight-bold);
 `;
-
-export default PostDetailPage;

@@ -10,7 +10,7 @@ import RecruitPoster from '../../components/Post/RecruitPoster.js';
 import LoginModal from '../../components/Modal.js';
 import userState from '../../recoil/userState';
 
-function MainPage() {
+export default function MainPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [showModal, setShowModal] = useState(false);
@@ -26,17 +26,6 @@ function MainPage() {
   };
 
   useEffect(() => {
-    const validateToken = () => {
-      if (!cookies.accessToken) {
-        setUserInfo({
-          studentId: '',
-          userName: '',
-          email: '',
-          isAuthenticated: false,
-        });
-      }
-    };
-
     const fetchNotices = async () => {
       try {
         const response = await getAllNotices();
@@ -62,7 +51,6 @@ function MainPage() {
       }
     };
     fetchNotices();
-    validateToken();
   }, []);
 
   return (
@@ -115,5 +103,3 @@ const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 `;
-
-export default MainPage;
