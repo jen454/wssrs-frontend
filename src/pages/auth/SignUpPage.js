@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
-function SignUpPage() {
+export default function SignUpPage() {
   const [formData, setFormData] = useState({
     studentId: '',
     password: '',
@@ -13,6 +13,13 @@ function SignUpPage() {
     email: '',
   });
   const navigate = useNavigate();
+
+  const inputFields = [
+    { name: 'studentId', placeholder: '학번을 입력해주세요.' },
+    { name: 'email', placeholder: '이메일을 입력해주세요.' },
+    { name: 'username', placeholder: '이름을 입력해주세요.' },
+    { name: 'password', placeholder: '비밀번호를 입력해주세요.' },
+  ];
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +42,7 @@ function SignUpPage() {
     }
 
     try {
-      const response = await signUp(formData);
+      await signUp(formData);
       navigate('/sign-in');
     } catch (error) {
       if (error.response) {
@@ -73,30 +80,15 @@ function SignUpPage() {
     <Container>
       <ContentArea>
         <Text>Sign Up</Text>
-        <AuthInput
-          name="studentId"
-          value={formData.studentId}
-          onChange={onInputChange}
-          placeholder="학번을 입력해주세요."
-        />
-        <AuthInput
-          name="email"
-          value={formData.email}
-          onChange={onInputChange}
-          placeholder="이메일을 입력해주세요."
-        />
-        <AuthInput
-          name="username"
-          value={formData.username}
-          onChange={onInputChange}
-          placeholder="이름을 입력해주세요."
-        />
-        <AuthInput
-          name="password"
-          value={formData.password}
-          onChange={onInputChange}
-          placeholder="비밀번호를 입력해주세요."
-        />
+        {inputFields.map((field, index) => (
+          <AuthInput
+            key={index}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={onInputChange}
+            placeholder={field.placeholder}
+          />
+        ))}
         <LargeBlueButton onClick={onClickSignUpButton} title={'회원가입'} />
       </ContentArea>
     </Container>
@@ -130,5 +122,3 @@ const Text = styled.div`
   font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
 `;
-
-export default SignUpPage;

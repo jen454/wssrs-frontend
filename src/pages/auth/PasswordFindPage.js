@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
-function PasswordFindPage() {
+export default function PasswordFindPage() {
   const [formData, setFormData] = useState({
     email: '',
     studentId: '',
@@ -135,5 +135,3 @@ const Alert = styled.div`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
 `;
-
-export default PasswordFindPage;

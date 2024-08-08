@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 
-function ResetPasswordPage() {
+export default function ResetPasswordPage() {
   const [formData, setFormData] = useState({
     newPassword: '',
     rePassword: '',
@@ -14,6 +14,11 @@ function ResetPasswordPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { accessToken } = location.state || {};
+
+  const textItems = [
+    { content: '비밀번호 재설정', size: 'xxl' },
+    { content: '새 비밀번호를 입력해주세요.', size: 'md' },
+  ];
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +47,7 @@ function ResetPasswordPage() {
     }
 
     try {
-      const response = await updatePassword(newPassword, accessToken);
+      await updatePassword(newPassword, accessToken);
       navigate('/sign-in');
     } catch (error) {
       if (error.response) {
@@ -77,8 +82,11 @@ function ResetPasswordPage() {
     <Container>
       <ContentArea>
         <TextArea>
-          <Text>비밀번호 재설정</Text>
-          <SubText>새 비밀번호를 입력해주세요.</SubText>
+          {textItems.map(({ content, size }, index) => (
+            <Text key={index} size={size}>
+              {content}
+            </Text>
+          ))}
         </TextArea>
         <AuthInput
           name="newPassword"
@@ -123,28 +131,19 @@ const ContentArea = styled.div`
   box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
 `;
 
-const TextArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-`;
-
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
 `;
 
-const Text = styled.div`
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
+const TextArea = styled(InputArea)`
+  align-items: center;
 `;
 
-const SubText = styled.div`
+const Text = styled.div`
   color: var(--color-gray-500);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-${(props) => props.size});
   font-weight: var(--font-weight-bold);
 `;
 
@@ -155,5 +154,3 @@ const Alert = styled.div`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
 `;
-
-export default ResetPasswordPage;

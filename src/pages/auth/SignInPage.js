@@ -8,7 +8,7 @@ import AuthInput from '../../components/Input/AuthInput';
 import LargeBlueButton from '../../components/Button/LargeBlueButton';
 import userState from '../../recoil/userState';
 
-function SignInPage() {
+export default function SignInPage() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,6 +16,16 @@ function SignInPage() {
   const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken']);
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
+
+  const inputFields = [
+    { name: 'email', placeholder: '이메일을 입력해주세요.' },
+    { name: 'password', placeholder: '비밀번호를 입력해주세요.' },
+  ];
+
+  const userAuthItems = [
+    { text: '회원가입', path: '/sign-up' },
+    { text: '비밀번호 찾기', path: '/find-password' },
+  ];
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -84,33 +94,25 @@ function SignInPage() {
     }
   };
 
-  const onClickSignUp = () => {
-    navigate('/sign-up');
-  };
-
-  const onClickFindPassWord = () => {
-    navigate('/find-password');
-  };
-
   return (
     <Container>
       <ContentArea>
         <Text>Log In</Text>
-        <AuthInput
-          name="email"
-          value={formData.email}
-          onChange={onInputChange}
-          placeholder="이메일을 입력해주세요."
-        />
-        <AuthInput
-          name="password"
-          value={formData.password}
-          onChange={onInputChange}
-          placeholder="비밀번호를 입력해주세요."
-        />
+        {inputFields.map((field, index) => (
+          <AuthInput
+            key={index}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={onInputChange}
+            placeholder={field.placeholder}
+          />
+        ))}
         <UserAuthArea>
-          <UserAuth onClick={onClickSignUp}>회원가입</UserAuth>
-          <UserAuth onClick={onClickFindPassWord}>비밀번호 찾기</UserAuth>
+          {userAuthItems.map(({ text, path }, index) => (
+            <UserAuth key={index} onClick={() => navigate(path)}>
+              {text}
+            </UserAuth>
+          ))}
         </UserAuthArea>
         <LargeBlueButton onClick={onClickSignInButton} title={'로그인'} />
       </ContentArea>
@@ -163,5 +165,3 @@ const UserAuth = styled.div`
   font-weight: var(--font-weight-bold);
   cursor: pointer;
 `;
-
-export default SignInPage;
