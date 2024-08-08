@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { getNotice, confirmRecruit } from '../../api/Admin.js';
 import { transformDays } from '../../util/TransFormDays.js';
@@ -8,33 +8,33 @@ import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import RecruitManageButton from '../../components/Button/RecruitManageButton.js';
 import ApplyTable from '../../components/Table/ApplyTable.js';
-import LeftArrow from '../../assets/post/LeftArrow.svg';
-import RightArrow from '../../assets/post/RightArrow.svg';
-import BackArrow from '../../assets/post/BackArrow.svg';
+import BackArrow from '../../components/Arrow/BackArrow.js';
+import PagingArrow from '../../components/Arrow/PagingArrow.js';
 
-function RecruitDetailPage() {
-  const navigate = useNavigate();
+export default function RecruitDetailPage() {
   const { noticeId } = useParams();
   const location = useLocation();
   const { formattedDate } = location.state || {};
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [notice, setNotices] = useState([]);
-  const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-
   const totalPages = Math.ceil(notice.length / itemsPerPage);
+
+  const transformDayData = (data) => {
+    return data.map((item) => ({
+      ...item,
+      day: transformDays(item.day),
+    }));
+  };
 
   useEffect(() => {
     const fetchNotice = async () => {
       try {
         const response = await getNotice(noticeId);
-        const transformedData = response.map((item) => ({
-          ...item,
-          day: transformDays(item.day),
-        }));
-        setNotices(transformedData);
+        setNotices(transformDayData(response));
       } catch (error) {
         console.error(error);
       }
@@ -43,27 +43,18 @@ function RecruitDetailPage() {
     fetchNotice();
   }, [noticeId]);
 
-  const onClickBackArrow = () => {
-    navigate(-1);
-  };
-
   const onClickConfirmPost = async () => {
     if (showCheckboxes) {
       if (selectedRows.length > 0) {
         try {
-          const recruitIds = selectedRows;
-          await confirmRecruit(recruitIds);
-
+          await confirmRecruit(selectedRows);
           const response = await getNotice(noticeId);
-          const transformedData = response.map((item) => ({
-            ...item,
-            day: transformDays(item.day),
-          }));
-          setNotices(transformedData);
+          setNotices(transformDayData(response));
           setSelectedRows([]);
           setShowCheckboxes(false);
         } catch (error) {
-          console.error('확정에 실패했습니다:', error);
+          alert('근로 확정에 실패했습니다.');
+          console.error('근로 확정 에러', error);
         }
       } else {
         setShowCheckboxes(false);
@@ -135,10 +126,10 @@ function RecruitDetailPage() {
       <ContentArea>
         <TitleArea>
           <Wraaper>
-            <BackArrowIcon src={BackArrow} onClick={onClickBackArrow} />
-            <Date>{formattedDate}</Date>
+            <BackArrow />
+            <GrayText fontSize={'xl'}>{formattedDate}</GrayText>
           </Wraaper>
-          <Title>Administration</Title>
+          <GrayText fontSize={'xxl'}>Administration</GrayText>
         </TitleArea>
         <ButtonArea>
           <RecruitManageButton
@@ -152,23 +143,13 @@ function RecruitDetailPage() {
             onClick={onClickConfirmPost}
           />
         </ButtonArea>
-        <ApplyTable
-          columns={columns}
-          data={currentData}
-          onChangeCheckBox={onChangeCheckBox}
+        <ApplyTable columns={columns} data={currentData} />
+        <PagingArrow
+          pageName="Detail"
+          onChangePage={onChangePage}
+          currentPage={currentPage}
+          totalPages={totalPages}
         />
-        <ArrowArea>
-          <ArrowIcon
-            src={LeftArrow}
-            onClick={() => onChangePage('prev')}
-            disabled={currentPage === 1}
-          />
-          <ArrowIcon
-            src={RightArrow}
-            onClick={() => onChangePage('next')}
-            disabled={currentPage === totalPages}
-          />
-        </ArrowArea>
         <SpanText>{`Page ${currentPage} of ${totalPages}`}</SpanText>
       </ContentArea>
       <Footer />
@@ -208,36 +189,9 @@ const ButtonArea = styled.div`
   gap: 20px;
 `;
 
-const ArrowArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 11px;
-  gap: 10px;
-`;
-
-const ArrowIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-`;
-
-const BackArrowIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-`;
-
-const Title = styled.div`
+const GrayText = styled.div`
   color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-`;
-
-const Date = styled.div`
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xl);
+  font-size: ${({ fontSize }) => `var(--font-size-${fontSize})`};
   font-weight: var(--font-weight-bold);
 `;
 
@@ -249,5 +203,3 @@ const SpanText = styled.div`
   font-size: var(--font-size-md);
   color: var(--color-gray-500);
 `;
-
-export default RecruitDetailPage;

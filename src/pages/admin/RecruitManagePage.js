@@ -8,16 +8,31 @@ import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import RecruitManageButton from '../../components/Button/RecruitManageButton.js';
 import RecruitTable from '../../components/Table/RecruitTable.js';
-import LeftArrow from '../../assets/post/LeftArrow.svg';
-import RightArrow from '../../assets/post/RightArrow.svg';
+import PagingArrow from '../../components/Arrow/PagingArrow.js';
 
-function RecruitManagePage() {
+export default function RecruitManagePage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
   const [notices, setNotices] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [pageNum, setPageNum] = useState(0);
+
+  const buttonConfig = [
+    {
+      title: '공고글 작성',
+      onClick: (navigate) => navigate('/recruit-add'),
+    },
+    {
+      title: (showCheckboxes, selectedRows) =>
+        showCheckboxes
+          ? selectedRows.length > 0
+            ? '삭제'
+            : '취소'
+          : '공고글 삭제',
+      onClick: (onClickDeletePost) => onClickDeletePost(),
+    },
+  ];
 
   useEffect(() => {
     const fetchNotices = async () => {
@@ -46,10 +61,6 @@ function RecruitManagePage() {
     };
     fetchNotices();
   }, [pageNum]);
-
-  const onClickAddPost = () => {
-    navigate('/recruit-add');
-  };
 
   const onClickRowPost = (notice) => {
     navigate(`/recruit-detail/${notice.id}`, {
@@ -134,35 +145,31 @@ function RecruitManagePage() {
       <ContentArea>
         <Title>Administration</Title>
         <ButtonArea>
-          <RecruitManageButton title={'공고글 작성'} onClick={onClickAddPost} />
-          <RecruitManageButton
-            title={
-              showCheckboxes
-                ? selectedRows.length > 0
-                  ? '삭제'
-                  : '취소'
-                : '공고글 삭제'
-            }
-            onClick={onClickDeletePost}
-          />
+          {buttonConfig.map((config, index) => (
+            <RecruitManageButton
+              key={index}
+              title={
+                typeof config.title === 'function'
+                  ? config.title(showCheckboxes, selectedRows)
+                  : config.title
+              }
+              onClick={() =>
+                config.onClick(index === 0 ? navigate : onClickDeletePost)
+              }
+            />
+          ))}
         </ButtonArea>
         <RecruitTable
           columns={columns}
           data={notices}
           onClick={onClickRowPost}
         />
-        <ArrowArea>
-          <ArrowIcon
-            src={LeftArrow}
-            onClick={() => onChangePage('prev')}
-            disabled={pageNum === 0}
-          />
-          <ArrowIcon
-            src={RightArrow}
-            onClick={() => onChangePage('next')}
-            disabled={notices.length < 8}
-          />
-        </ArrowArea>
+        <PagingArrow
+          pageName="Manage"
+          onChangePage={onChangePage}
+          currentPage={pageNum}
+          totalPages={notices.length}
+        />
       </ContentArea>
       <Footer />
     </Container>
@@ -188,21 +195,6 @@ const ButtonArea = styled.div`
   gap: 20px;
 `;
 
-const ArrowArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 11px;
-  gap: 10px;
-`;
-
-const ArrowIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-`;
-
 const Title = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -211,5 +203,3 @@ const Title = styled.div`
   font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
 `;
-
-export default RecruitManagePage;

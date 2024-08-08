@@ -2,21 +2,12 @@ import React from 'react';
 import { useTable } from 'react-table';
 import styled from 'styled-components';
 
-const ApplyTable = ({ columns, data, onClick }) => {
+const ApplyTable = ({ columns, data }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
-
-  const handleRowClick = (recruitId, event) => {
-    if (event.target.type === 'checkbox') {
-      // 이벤트 전파 방지
-      event.stopPropagation();
-      return;
-    }
-    onClick(recruitId);
-  };
 
   return (
     <TableContainer>
@@ -37,9 +28,6 @@ const ApplyTable = ({ columns, data, onClick }) => {
               <tr
                 {...row.getRowProps()}
                 className={row.original.isConfirmed ? 'confirmed' : ''}
-                onClick={(event) =>
-                  handleRowClick(row.original.recruitId, event)
-                }
               >
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>

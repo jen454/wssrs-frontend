@@ -6,25 +6,22 @@ import styled from 'styled-components';
 import Header from '../../components/Common/Header.js';
 import Footer from '../../components/Common/Footer.js';
 import imageSelector from '../../assets/post/imageSelector.svg';
+import BackArrow from '../../components/Arrow/BackArrow.js';
 
-function RecruitAddPage() {
+export default function RecruitAddPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(['accessToken', 'refreshToken']);
-  const [title, setTitle] = useState('');
   const [files, setFiles] = useState([]);
+  const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-
-  const onChangeTitle = (e) => {
-    setTitle(e.target.value);
-  };
 
   const onChangeFile = (e) => {
     const newFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  const onChangeContent = (e) => {
-    setContent(e.target.value);
+  const onChangeText = (setter) => (e) => {
+    setter(e.target.value);
   };
 
   const onClickDeleteImage = (index) => {
@@ -53,12 +50,15 @@ function RecruitAddPage() {
     <Container>
       <Header isLog={!!cookies.accessToken} />
       <ContentArea>
-        <Title>Administration</Title>
+        <TitleArea>
+          <BackArrow />
+          <Title>Administration</Title>
+        </TitleArea>
         <FormArea>
           <Input
             type="text"
             value={title}
-            onChange={onChangeTitle}
+            onChange={onChangeText(setTitle)}
             placeholder="제목"
           />
           <FileInputArea>
@@ -90,7 +90,7 @@ function RecruitAddPage() {
           </FileInputArea>
           <Textarea
             value={content}
-            onChange={onChangeContent}
+            onChange={onChangeText(setContent)}
             placeholder="내용을 입력해주세요."
           />
           <ButtonArea>
@@ -109,12 +109,19 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
+const TitleArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+`;
+
 const ContentArea = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 62px;
-  margin: 62px 0px 32px;
+  margin-bottom: 32px;
 `;
 
 const Title = styled.div`
@@ -212,5 +219,3 @@ const SubmitButton = styled.div`
   border-radius: 20px;
   cursor: pointer;
 `;
-
-export default RecruitAddPage;
