@@ -13,6 +13,11 @@ export default function PasswordFindPage() {
   const [userInfoValid, setUserInfoValid] = useState(true);
   const navigate = useNavigate();
 
+  const inputFields = [
+    { name: 'studentId', placeholder: '학번을 입력해주세요.' },
+    { name: 'email', placeholder: '이메일을 입력해주세요.' },
+  ];
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -73,19 +78,18 @@ export default function PasswordFindPage() {
     <Container>
       <ContentArea>
         <Text>비밀번호 찾기</Text>
-        <AuthInput
-          name="studentId"
-          value={formData.studentId}
-          onChange={onInputChange}
-          placeholder="학번을 입력해주세요."
-        />
-        <InputArea>
-          <AuthInput
-            name="email"
-            value={formData.email}
-            onChange={onInputChange}
-            placeholder="이메일을 입력해주세요."
-          />
+        <InputArea gap="5px">
+          <InputArea gap="40px">
+            {inputFields.map((field) => (
+              <AuthInput
+                key={field.name}
+                name={field.name}
+                value={formData[field.name]}
+                onChange={onInputChange}
+                placeholder={field.placeholder}
+              />
+            ))}
+          </InputArea>
           {!userInfoValid && <Alert>* 사용자 정보가 일치하지 않습니다!</Alert>}
         </InputArea>
         <LargeBlueButton onClick={onClickNextButton} title={'다음'} />
@@ -101,9 +105,12 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const ContentArea = styled.div`
+const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ContentArea = styled(FlexColumn)`
   align-items: center;
   justify-content: center;
   width: 90%;
@@ -116,10 +123,8 @@ const ContentArea = styled.div`
   box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
 `;
 
-const InputArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+const InputArea = styled(FlexColumn)`
+  gap: ${(props) => props.gap};
 `;
 
 const Text = styled.div`

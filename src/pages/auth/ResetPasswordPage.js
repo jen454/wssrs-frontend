@@ -20,6 +20,11 @@ export default function ResetPasswordPage() {
     { content: '새 비밀번호를 입력해주세요.', size: 'md' },
   ];
 
+  const inputFields = [
+    { name: 'newPassword', placeholder: '비밀번호를 입력해주세요.' },
+    { name: 'rePassword', placeholder: '다시 입력해주세요.' },
+  ];
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -88,19 +93,18 @@ export default function ResetPasswordPage() {
             </Text>
           ))}
         </TextArea>
-        <AuthInput
-          name="newPassword"
-          value={formData.newPassword}
-          onChange={onInputChange}
-          placeholder="비밀번호를 입력해주세요."
-        />
-        <InputArea>
-          <AuthInput
-            name="rePassword"
-            value={formData.rePassword}
-            onChange={onInputChange}
-            placeholder="다시 입력해주세요."
-          />
+        <InputArea gap="5px">
+          <InputArea gap="40px">
+            {inputFields.map((field, index) => (
+              <AuthInput
+                key={index}
+                name={field.name}
+                value={formData[field.name]}
+                onChange={onInputChange}
+                placeholder={field.placeholder}
+              />
+            ))}
+          </InputArea>
           {!equalPassword && <Alert>* 비밀번호가 일치하지 않습니다!</Alert>}
         </InputArea>
         <LargeBlueButton onClick={onClickButton} title={'설정'} />
@@ -116,9 +120,12 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const ContentArea = styled.div`
+const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ContentArea = styled(FlexColumn)`
   align-items: center;
   justify-content: center;
   width: 90%;
@@ -131,10 +138,8 @@ const ContentArea = styled.div`
   box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
 `;
 
-const InputArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+const InputArea = styled(FlexColumn)`
+  gap: ${(props) => props.gap || '5px'};
 `;
 
 const TextArea = styled(InputArea)`
