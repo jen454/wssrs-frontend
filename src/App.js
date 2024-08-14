@@ -1,16 +1,16 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { RecoilRoot, useRecoilValue } from 'recoil';
-import MainPage from './pages/user/MainPage';
-import PostDetailPage from './pages/user/PostDetailPage';
-import ApplyPage from './pages/user/ApplyPage';
-import SignUpPage from './pages/auth/SignUpPage';
-import PasswordFindPage from './pages/auth/PasswordFindPage';
-import ResetPasswordPage from './pages/auth/ResetPasswordPage';
-import SignInPage from './pages/auth/SignInPage';
-import RecruitManagePage from './pages/admin/RecruitManagePage';
-import RecruitDetailPage from './pages/admin/RecruitDetailPage';
-import RecruitAddPage from './pages/admin/RecruitAddPage';
+import MainPage from './pages/user/MainPage/MainPage';
+import PostDetailPage from './pages/user/PostDetailPage/PostDetailPage';
+import ApplyPage from './pages/user/ApplyPage/ApplyPage';
+import SignUpPage from './pages/auth/SignUpPage/SignUpPage';
+import PasswordFindPage from './pages/auth/PasswordFindPage/PasswordFindPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage/ResetPasswordPage';
+import SignInPage from './pages/auth/SignInPage/SignInPage';
+import RecruitManagePage from './pages/admin/RecruitManagePage/RecruitManagePage';
+import RecruitDetailPage from './pages/admin/RecruitDetailPage/RecruitDetailPage';
+import RecruitAddPage from './pages/admin/RecruitAddPage/RecruitAddPage';
 import userState from './recoil/userState';
 
 const ProtectedRoute = ({ element, adminOnly }) => {

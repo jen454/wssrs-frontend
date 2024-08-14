@@ -38,12 +38,7 @@
 
 .App {
   position: relative;
-  @media screen and (max-width: 767px) {
-    width: 100%;
-  }
-  @media screen and (min-width: 768px) {
-    width: 1040px;
-  }
+  width: 100%;
   background-color: var(--background-color);
   font-family: 'Inter', sans-serif;
   font-weight: var(--font-weight-regular);

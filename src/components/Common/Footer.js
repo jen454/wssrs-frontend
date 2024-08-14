@@ -21,47 +21,55 @@ function Footer() {
   return (
     <Container>
       <ContentArea>
-        <a
-          href="https://www.kookmin.ac.kr/user/index.do"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image src={kmuLogo} width="134px" height="50px" />
-        </a>
-        <PolicyArea>
-          {policyTexts.map((text, index) => (
-            <SmallMediumText key={index}>{text}</SmallMediumText>
-          ))}
-        </PolicyArea>
-      </ContentArea>
-      <InfoArea>
-        {socialMediaLinks.map((link, index) => (
+        <CopyRightArea>
           <a
-            key={index}
-            href={link.href}
+            href="https://www.kookmin.ac.kr/user/index.do"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image src={link.src} width="30px" height="30px" />
+            <Image src={kmuLogo} width="134px" height="50px" />
           </a>
-        ))}
-      </InfoArea>
+          <PolicyArea>
+            {policyTexts.map((text, index) => (
+              <SmallMediumText key={index}>{text}</SmallMediumText>
+            ))}
+          </PolicyArea>
+        </CopyRightArea>
+        <InfoArea>
+          {socialMediaLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image src={link.src} width="30px" height="30px" />
+            </a>
+          ))}
+        </InfoArea>
+      </ContentArea>
     </Container>
   );
 }
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
-  max-width: 1040px;
   height: 110px;
   background-color: var(--background-color);
   border-top: 0.5px solid var(--color-gray-500);
 `;
 
 const ContentArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1040px;
+`;
+
+const CopyRightArea = styled.div`
   display: flex;
   gap: 30px;
 `;

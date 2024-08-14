@@ -1,9 +1,16 @@
 import { React, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { updatePassword } from '../../api/Auth';
-import styled from 'styled-components';
-import AuthInput from '../../components/Input/AuthInput';
-import LargeBlueButton from '../../components/Button/LargeBlueButton';
+import { updatePassword } from '../../../api/Auth';
+import AuthInput from '../../../components/Input/AuthInput';
+import LargeBlueButton from '../../../components/Button/LargeBlueButton';
+import {
+  Container,
+  ContentArea,
+  InputArea,
+  TextArea,
+  Text,
+  Alert,
+} from './ResetPasswordPage.styles';
 
 export default function ResetPasswordPage() {
   const [formData, setFormData] = useState({
@@ -112,50 +119,3 @@ export default function ResetPasswordPage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-`;
-
-const FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ContentArea = styled(FlexColumn)`
-  align-items: center;
-  justify-content: center;
-  width: 90%;
-  max-width: 1040px;
-  height: 700px;
-  gap: 40px;
-  border-radius: 50px;
-  background-color: var(--background-color);
-  box-sizing: border-box;
-  box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
-`;
-
-const InputArea = styled(FlexColumn)`
-  gap: ${(props) => props.gap || '5px'};
-`;
-
-const TextArea = styled(InputArea)`
-  align-items: center;
-`;
-
-const Text = styled.div`
-  color: var(--color-gray-500);
-  font-size: var(--font-size-${(props) => props.size});
-  font-weight: var(--font-weight-bold);
-`;
-
-const Alert = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  color: var(--color-red);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-`;

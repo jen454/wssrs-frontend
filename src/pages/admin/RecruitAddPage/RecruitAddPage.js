@@ -1,12 +1,29 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { createNotice } from '../../api/Admin.js';
-import styled from 'styled-components';
-import Header from '../../components/Common/Header.js';
-import Footer from '../../components/Common/Footer.js';
-import imageSelector from '../../assets/post/imageSelector.svg';
-import BackArrow from '../../components/Arrow/BackArrow.js';
+import { createNotice } from '../../../api/Admin.js';
+import Header from '../../../components/Common/Header.js';
+import Footer from '../../../components/Common/Footer.js';
+import imageSelector from '../../../assets/post/imageSelector.svg';
+import BackArrow from '../../../components/Arrow/BackArrow.js';
+import {
+  Container,
+  TitleArea,
+  ContentArea,
+  Title,
+  FormArea,
+  FileInputArea,
+  ImagePreviewArea,
+  ButtonArea,
+  Input,
+  FileInput,
+  UploadButton,
+  ImagePreviewWrapper,
+  PreviewImage,
+  DeleteButton,
+  Textarea,
+  SubmitButton,
+} from './RecruitAddPage.styles.js';
 
 export default function RecruitAddPage() {
   const navigate = useNavigate();
@@ -102,120 +119,3 @@ export default function RecruitAddPage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const TitleArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-`;
-
-const ContentArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 62px;
-  margin-bottom: 32px;
-`;
-
-const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-`;
-
-const FormArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-`;
-
-const FileInputArea = styled.div`
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-`;
-
-const ImagePreviewArea = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-`;
-
-const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const Input = styled.input`
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  border: none;
-  outline: none;
-`;
-
-const FileInput = styled.input`
-  display: none;
-`;
-
-const UploadButton = styled.img`
-  width: 250px;
-  height: 250px;
-  cursor: pointer;
-`;
-
-const ImagePreviewWrapper = styled.div`
-  position: relative;
-  width: 250px;
-  height: 250px;
-`;
-
-const PreviewImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const DeleteButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: var(--color-gray-300);
-  color: var(--background-color);
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-`;
-
-const Textarea = styled.textarea`
-  font-size: var(--font-size-lm);
-  border: none;
-  outline: none;
-  resize: none;
-  height: 200px;
-`;
-
-const SubmitButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 35px;
-  color: var(--background-color);
-  font-size: var(--font-size-lm);
-  font-weight: var(--font-weight-bold);
-  background-color: var(--color-blue);
-  &:hover {
-    background-color: var(--color-blue-hover);
-  }
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  cursor: pointer;
-`;

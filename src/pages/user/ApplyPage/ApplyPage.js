@@ -1,17 +1,30 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { getNotice, recruitNotice } from '../../api/User.js';
-import styled from 'styled-components';
-import Header from '../../components/Common/Header.js';
-import Footer from '../../components/Common/Footer.js';
-import ListButton from '../../components/Button/ListButton.js';
-import MediumBlueButton from '../../components/Button/MediumBlueButton.js';
-import PostTitle from '../../components/Post/PostTitle.js';
-import ApplyInput from '../../components/Input/ApplyInput.js';
-import ApplyCheckBox from '../../components/Input/ApplyCheckBox.js';
-import Category from '../../components/Post/Category.js';
-import SubmitModal from '../../components/Modal.js';
+import { getNotice, recruitNotice } from '../../../api/User.js';
+import Header from '../../../components/Common/Header.js';
+import Footer from '../../../components/Common/Footer.js';
+import ListButton from '../../../components/Button/ListButton.js';
+import MediumBlueButton from '../../../components/Button/MediumBlueButton.js';
+import PostTitle from '../../../components/Post/PostTitle.js';
+import ApplyInput from '../../../components/Input/ApplyInput.js';
+import ApplyCheckBox from '../../../components/Input/ApplyCheckBox.js';
+import Category from '../../../components/Post/Category.js';
+import SubmitModal from '../../../components/Modal.js';
+import {
+  Container,
+  ContentArea,
+  PostTextArea,
+  PostArea,
+  FormArea,
+  PreferDayArea,
+  UnionArea,
+  CheckboxArea,
+  Menu,
+  Post,
+  CheckboxTitle,
+  Backdrop,
+} from './ApplyPage.styles.js';
 
 export default function ApplyPage() {
   const navigate = useNavigate();
@@ -203,73 +216,3 @@ export default function ApplyPage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const ContentArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const PostTextArea = styled(ContentArea)``;
-
-const PostArea = styled.div`
-  display: flex;
-  width: 100%;
-  height: 650px;
-  justify-content: center;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: var(--color-gray-10);
-`;
-
-const FormArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 60px 110px;
-`;
-
-const PreferDayArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-
-const UnionArea = styled(PreferDayArea)``;
-
-const CheckboxArea = styled.div`
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-`;
-
-const Menu = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 6px 0px;
-`;
-
-const Post = styled.img`
-  width: 550px;
-  height: 650px;
-  background-color: var(--background-color);
-`;
-
-const CheckboxTitle = styled.div`
-  font-size: var(--font-size-lm);
-`;
-
-const Backdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-`;

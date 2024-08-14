@@ -1,14 +1,19 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { getAllNotices, deleteNotice } from '../../api/Admin.js';
-import { FormatDate } from '../../util/FormatDate.js';
-import styled from 'styled-components';
-import Header from '../../components/Common/Header.js';
-import Footer from '../../components/Common/Footer.js';
-import RecruitManageButton from '../../components/Button/RecruitManageButton.js';
-import RecruitTable from '../../components/Table/RecruitTable.js';
-import PagingArrow from '../../components/Arrow/PagingArrow.js';
+import { getAllNotices, deleteNotice } from '../../../api/Admin.js';
+import { FormatDate } from '../../../util/FormatDate.js';
+import Header from '../../../components/Common/Header.js';
+import Footer from '../../../components/Common/Footer.js';
+import RecruitManageButton from '../../../components/Button/RecruitManageButton.js';
+import RecruitTable from '../../../components/Table/RecruitTable.js';
+import PagingArrow from '../../../components/Arrow/PagingArrow.js';
+import {
+  Container,
+  ContentArea,
+  ButtonArea,
+  Title,
+} from './RecruitManagePage.styles.js';
 
 export default function RecruitManagePage() {
   const navigate = useNavigate();
@@ -175,31 +180,3 @@ export default function RecruitManagePage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const ContentArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 11px;
-  gap: 20px;
-`;
-
-const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 62px;
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-`;

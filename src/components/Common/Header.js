@@ -67,50 +67,58 @@ function Header({ isLog }) {
 
   return (
     <Container>
-      <LogoArea>
-        <a
-          href="https://www.kookmin.ac.kr/user/index.do"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image src={kmuLogo} width="134px" height="50px" />
-        </a>
-        <Text>{transLanguage.coop}</Text>
-      </LogoArea>
-      <InfoArea>
-        {isLog && (
-          <UserName>
-            {userInfo.studentId} {userInfo.userName}
-          </UserName>
-        )}
-        <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
-        <Image
-          src={isLog ? logoutIcon : loginIcon}
-          width="30px"
-          height="30px"
-          onClick={onClickLogIcon}
-        />
-      </InfoArea>
+      <ContentArea>
+        <LogoArea>
+          <a
+            href="https://www.kookmin.ac.kr/user/index.do"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image src={kmuLogo} width="134px" height="50px" />
+          </a>
+          <Text>{transLanguage.coop}</Text>
+        </LogoArea>
+        <InfoArea>
+          {isLog && (
+            <UserName>
+              {userInfo.studentId} {userInfo.userName}
+            </UserName>
+          )}
+          <LanguageSelector onClickLanguageChange={onClickLanguageChange} />
+          <Image
+            src={isLog ? logoutIcon : loginIcon}
+            width="30px"
+            height="30px"
+            onClick={onClickLogIcon}
+          />
+        </InfoArea>
+      </ContentArea>
     </Container>
   );
 }
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1040px;
+  justify-content: center;
   height: 100px;
+  width: 100%;
   background-color: var(--background-color);
   border-bottom: 0.5px solid var(--color-gray-500);
 `;
 
+const ContentArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1040px;
+`;
+
 const LogoArea = styled.div`
   display: flex;
-  height: 50px;
   align-items: center;
   justify-content: center;
+  height: 50px;
 `;
 
 const InfoArea = styled.div`

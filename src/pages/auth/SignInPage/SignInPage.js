@@ -1,24 +1,36 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signUp } from '../../api/Auth';
-import styled from 'styled-components';
-import AuthInput from '../../components/Input/AuthInput';
-import LargeBlueButton from '../../components/Button/LargeBlueButton';
+import { login } from '../../../api/Auth';
+import { useCookies } from 'react-cookie';
+import { useSetRecoilState } from 'recoil';
+import AuthInput from '../../../components/Input/AuthInput';
+import LargeBlueButton from '../../../components/Button/LargeBlueButton';
+import userState from '../../../recoil/userState';
+import {
+  Container,
+  ContentArea,
+  UserAuthArea,
+  Text,
+  UserAuth,
+} from './SignInPage.styles';
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const [formData, setFormData] = useState({
-    studentId: '',
-    password: '',
-    username: '',
     email: '',
+    password: '',
   });
+  const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken']);
+  const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
 
   const inputFields = [
-    { name: 'studentId', placeholder: '학번을 입력해주세요.' },
     { name: 'email', placeholder: '이메일을 입력해주세요.' },
-    { name: 'username', placeholder: '이름을 입력해주세요.' },
     { name: 'password', placeholder: '비밀번호를 입력해주세요.' },
+  ];
+
+  const userAuthItems = [
+    { text: '회원가입', path: '/sign-up' },
+    { text: '비밀번호 찾기', path: '/find-password' },
   ];
 
   const onInputChange = (e) => {
@@ -27,14 +39,14 @@ export default function SignUpPage() {
   };
 
   const validateForm = () => {
-    const { studentId, password, username, email } = formData;
-    if (!studentId || !password || !username || !email) {
+    const { email, password } = formData;
+    if (!email || !password) {
       return '모든 필드를 채워주세요.';
     }
     return null;
   };
 
-  const onClickSignUpButton = async () => {
+  const onClickSignInButton = async () => {
     const validationError = validateForm();
     if (validationError) {
       alert(validationError);
@@ -42,16 +54,28 @@ export default function SignUpPage() {
     }
 
     try {
-      await signUp(formData);
-      navigate('/sign-in');
+      const response = await login(formData);
+      setCookie('accessToken', response.accessToken);
+      setCookie('refreshToken', response.refreshToken);
+      setUser({
+        studentId: response.studentId,
+        userName: response.username,
+        email: formData.email,
+        isAuthenticated: true,
+      });
+      if (formData.email === 'admin' && formData.password === 'admin12!@') {
+        navigate('/recruit-manage');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       if (error.response) {
         const { status, code, message } = error.response.data;
         switch (code) {
-          case 'DUPLICATED_MEMBER': // AUTH-003
+          case 'MEMBER_NOT_FOUND': // AUTH-001
             alert(message);
             break;
-          case 'MISSING_INFORMATION': // AUTH-004
+          case 'INVALID_PASSWORD': // AUTH-002
             alert(message);
             break;
           default:
@@ -79,7 +103,7 @@ export default function SignUpPage() {
   return (
     <Container>
       <ContentArea>
-        <Text>Sign Up</Text>
+        <Text>Log In</Text>
         {inputFields.map((field, index) => (
           <AuthInput
             key={index}
@@ -89,36 +113,15 @@ export default function SignUpPage() {
             placeholder={field.placeholder}
           />
         ))}
-        <LargeBlueButton onClick={onClickSignUpButton} title={'회원가입'} />
+        <UserAuthArea>
+          {userAuthItems.map(({ text, path }, index) => (
+            <UserAuth key={index} onClick={() => navigate(path)}>
+              {text}
+            </UserAuth>
+          ))}
+        </UserAuthArea>
+        <LargeBlueButton onClick={onClickSignInButton} title={'로그인'} />
       </ContentArea>
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-`;
-
-const ContentArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 90%;
-  max-width: 1040px;
-  height: 700px;
-  gap: 40px;
-  border-radius: 50px;
-  background-color: var(--background-color);
-  box-sizing: border-box;
-  box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
-`;
-
-const Text = styled.div`
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-`;

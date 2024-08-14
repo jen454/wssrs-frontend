@@ -1,15 +1,23 @@
 import { React, useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { getNotice, confirmRecruit } from '../../api/Admin.js';
-import { transformDays } from '../../util/TransFormDays.js';
-import styled from 'styled-components';
-import Header from '../../components/Common/Header.js';
-import Footer from '../../components/Common/Footer.js';
-import RecruitManageButton from '../../components/Button/RecruitManageButton.js';
-import ApplyTable from '../../components/Table/ApplyTable.js';
-import BackArrow from '../../components/Arrow/BackArrow.js';
-import PagingArrow from '../../components/Arrow/PagingArrow.js';
+import { getNotice, confirmRecruit } from '../../../api/Admin.js';
+import { transformDays } from '../../../util/TransFormDays.js';
+import Header from '../../../components/Common/Header.js';
+import Footer from '../../../components/Common/Footer.js';
+import RecruitManageButton from '../../../components/Button/RecruitManageButton.js';
+import ApplyTable from '../../../components/Table/ApplyTable.js';
+import BackArrow from '../../../components/Arrow/BackArrow.js';
+import PagingArrow from '../../../components/Arrow/PagingArrow.js';
+import {
+  Container,
+  ContentArea,
+  TitleArea,
+  Wrapper,
+  ButtonArea,
+  GrayText,
+  SpanText,
+} from './RecruitDetailPage.styles.js';
 
 export default function RecruitDetailPage() {
   const { noticeId } = useParams();
@@ -125,10 +133,10 @@ export default function RecruitDetailPage() {
       <Header isLog={!!cookies.accessToken} />
       <ContentArea>
         <TitleArea>
-          <Wraaper>
+          <Wrapper>
             <BackArrow />
             <GrayText fontSize={'xl'}>{formattedDate}</GrayText>
-          </Wraaper>
+          </Wrapper>
           <GrayText fontSize={'xxl'}>Administration</GrayText>
         </TitleArea>
         <ButtonArea>
@@ -156,50 +164,3 @@ export default function RecruitDetailPage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const ContentArea = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const TitleArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-`;
-
-const Wraaper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-`;
-
-const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 11px;
-  gap: 20px;
-`;
-
-const GrayText = styled.div`
-  color: var(--color-gray-500);
-  font-size: ${({ fontSize }) => `var(--font-size-${fontSize})`};
-  font-weight: var(--font-weight-bold);
-`;
-
-const SpanText = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 0px 14px 14px 14px;
-  font-size: var(--font-size-md);
-  color: var(--color-gray-500);
-`;
