@@ -1,34 +1,26 @@
 import styled from 'styled-components';
-import { FlexColumn } from '../../../components/Style';
+import {
+  FlexEnd,
+  FlexAlignCenter,
+} from '../../../components/Styles/Flex.styles';
+import {
+  AdminContainer,
+  AdminContentArea,
+  AdminTitleArea,
+  AdminButtonArea,
+} from '../../../components/Styles/Admin.styles';
 
-export const Container = styled(FlexColumn)`
-  align-items: center;
-  min-height: 100vh;
-`;
+export const Container = styled(AdminContainer)``;
 
-export const ContentArea = styled(FlexColumn)`
-  flex: 1;
-  width: 100%;
-  max-width: 1040px;
-`;
+export const ContentArea = styled(AdminContentArea)``;
 
-export const TitleArea = styled(FlexColumn)`
-  gap: 16px;
-  margin-top: 16px;
-`;
+export const TitleArea = styled(AdminTitleArea)``;
 
-export const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
+export const Wrapper = styled(FlexAlignCenter)`
   gap: 20px;
 `;
 
-export const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 11px;
-  gap: 20px;
-`;
+export const ButtonArea = styled(AdminButtonArea)``;
 
 export const GrayText = styled.div`
   color: var(--color-gray-500);
@@ -36,9 +28,7 @@ export const GrayText = styled.div`
   font-weight: var(--font-weight-bold);
 `;
 
-export const SpanText = styled.div`
-  display: flex;
-  justify-content: flex-end;
+export const SpanText = styled(FlexEnd)`
   align-items: center;
   margin: 0px 14px 14px 14px;
   font-size: var(--font-size-md);

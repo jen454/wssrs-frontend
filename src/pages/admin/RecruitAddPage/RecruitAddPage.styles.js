@@ -1,52 +1,42 @@
 import styled from 'styled-components';
-import { FlexColumn } from '../../../components/Style';
-import { FlexCenter } from '../../../components/Style';
+import {
+  Flex,
+  FlexColumn,
+  FlexCenter,
+  FlexAlignCenter,
+  FlexEnd,
+} from '../../../components/Styles/Flex.styles';
+import {
+  AdminContainer,
+  AdminContentArea,
+  AdminTitle,
+  AdminTitleArea,
+} from '../../../components/Styles/Admin.styles';
 
-export const Container = styled(FlexColumn)`
-  align-items: center;
-  min-height: 100vh;
-`;
+export const Container = styled(AdminContainer)``;
 
-export const TitleArea = styled(FlexColumn)`
-  gap: 16px;
-  margin-top: 16px;
-`;
+export const TitleArea = styled(AdminTitleArea)``;
 
-export const ContentArea = styled(FlexColumn)`
-  flex: 1;
+export const ContentArea = styled(AdminContentArea)`
   gap: 62px;
   margin-bottom: 32px;
-  width: 100%;
-  max-width: 1040px;
 `;
 
-export const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
-`;
+export const Title = styled(AdminTitle)``;
 
 export const FormArea = styled(FlexColumn)`
   gap: 30px;
 `;
 
-export const FileInputArea = styled.div`
-  display: flex;
-  align-items: center;
+export const FileInputArea = styled(FlexAlignCenter)`
   overflow-x: auto;
 `;
 
-export const ImagePreviewArea = styled.div`
-  display: flex;
+export const ImagePreviewArea = styled(Flex)`
   flex-wrap: nowrap;
 `;
 
-export const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
+export const ButtonArea = styled(FlexEnd)``;
 
 export const Input = styled.input`
   font-size: var(--font-size-xl);

@@ -1,31 +1,22 @@
 import styled from 'styled-components';
-import { FlexCenter } from '../../../components/Style';
+import { FlexCenter } from '../../../components/Styles/Flex.styles';
+import {
+  AuthContainer,
+  AuthContentArea,
+  AuthText,
+} from '../../../components/Styles/Auth.styles';
 
-export const Container = styled(FlexCenter)`
-  min-height: 100vh;
-`;
+export const Container = styled(AuthContainer)``;
 
-export const ContentArea = styled(FlexCenter)`
-  flex-direction: column;
-  width: 90%;
-  max-width: 700px;
-  height: 700px;
-  gap: 30px;
-  border-radius: 50px;
-  background-color: var(--background-color);
-  box-sizing: border-box;
-  box-shadow: 4px 4px 30px 0px rgba(0, 0, 0, 0.25);
-`;
+export const ContentArea = styled(AuthContentArea)``;
 
 export const UserAuthArea = styled(FlexCenter)`
   gap: 10px;
   background-color: var(--background-color);
 `;
 
-export const Text = styled.div`
-  color: var(--color-gray-500);
+export const Text = styled(AuthText)`
   font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
 `;
 
 export const UserAuth = styled.div`

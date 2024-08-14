@@ -1,29 +1,25 @@
 import styled from 'styled-components';
-import { FlexColumn } from '../../../components/Style';
-import { FlexCenter } from '../../../components/Style';
+import { FlexCenter } from '../../../components/Styles/Flex.styles';
+import {
+  UserContainer,
+  UserPostTextArea,
+  UserContentArea,
+  UserPostArea,
+  UserMenu,
+  UserPost,
+} from '../../../components/Styles/User.styles';
 
-export const Container = styled(FlexColumn)`
-  align-items: center;
-  min-height: 100vh;
-`;
+export const Container = styled(UserContainer)``;
 
-export const PostTextArea = styled(FlexColumn)`
-  flex: 1;
-`;
+export const PostTextArea = styled(UserPostTextArea)``;
 
-export const ContentArea = styled(PostTextArea)`
-  width: 100%;
-  max-width: 1040px;
-`;
+export const ContentArea = styled(UserContentArea)``;
 
-export const PostArea = styled.div`
-  display: flex;
-  width: 100%;
-  height: 650px;
-  justify-content: center;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: var(--color-gray-10);
-`;
+export const PostArea = styled(UserPostArea)``;
+
+export const Menu = styled(UserMenu)``;
+
+export const Post = styled(UserPost)``;
 
 export const TextArea = styled.textarea`
   width: 100%;
@@ -39,18 +35,6 @@ export const TextArea = styled.textarea`
   overflow-y: auto;
   box-sizing: border-box;
   text-align: left;
-`;
-
-export const Menu = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 6px 0px;
-`;
-
-export const Post = styled.img`
-  width: 550px;
-  height: 650px;
-  background-color: var(--background-color);
 `;
 
 export const ApplyButton = styled(FlexCenter)`

@@ -1,29 +1,17 @@
 import styled from 'styled-components';
-import { FlexColumn } from '../../../components/Style';
+import {
+  AdminContainer,
+  AdminContentArea,
+  AdminButtonArea,
+  AdminTitle,
+} from '../../../components/Styles/Admin.styles';
 
-export const Container = styled(FlexColumn)`
-  align-items: center;
-  min-height: 100vh;
-`;
+export const Container = styled(AdminContainer)``;
 
-export const ContentArea = styled(FlexColumn)`
-  flex: 1;
-  width: 100%;
-  max-width: 1040px;
-`;
+export const ContentArea = styled(AdminContentArea)``;
 
-export const ButtonArea = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 11px;
-  gap: 20px;
-`;
+export const ButtonArea = styled(AdminButtonArea)``;
 
-export const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
+export const Title = styled(AdminTitle)`
   margin-top: 62px;
-  color: var(--color-gray-500);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-weight-bold);
 `;
